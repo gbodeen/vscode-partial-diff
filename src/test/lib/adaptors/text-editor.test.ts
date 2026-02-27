@@ -116,16 +116,16 @@ suite('TextEditor', () => {
     }
 
     function fakeEditor(selections: any[]) {
+        const entireText = 'ENTIRE TEXT';
         return mockType<vscode.TextEditor>({
             selections,
             selection: selections[0],
             document: {
                 fileName: 'FILENAME',
-                _entireText: 'ENTIRE TEXT',
                 getText(selection: any) {
-                    return selection ? selection.text : this._entireText;
+                    return selection ? selection.text : entireText;
                 }
-            }
+            } as any
         });
     }
 });

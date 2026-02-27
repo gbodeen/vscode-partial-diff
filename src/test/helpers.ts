@@ -5,12 +5,12 @@ export function mock<T>(c: new (...args: any[]) => T): T {
     return new (td.constructor(c));
 }
 
-export function mockType<T>(params?: any): T {
-    return Object.assign({} as T, params);
+export function mockType<T extends object>(params?: Partial<T>): T {
+    return Object.assign({}, params) as T;
 }
 
-export function mockMethods<T>(methods: string[], params?: any): T {
-    return Object.assign(td.object(methods) as T, params);
+export function mockMethods<T extends object>(methods: string[], params?: Partial<T>): T {
+    return Object.assign(td.object(methods) as object, params) as T;
 }
 
 export const verify = td.verify;

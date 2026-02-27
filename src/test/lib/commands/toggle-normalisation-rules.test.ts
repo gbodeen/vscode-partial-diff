@@ -41,7 +41,7 @@ suite('ToggleNormalisationRulesCommand', () => {
         when(windowAdaptor.showQuickPick([
             {label: 'RULE1', picked: true, ruleIndex: 0, description: ''},
             {label: 'RULE2', picked: true, ruleIndex: 1, description: ''}
-        ])).thenResolve([{ruleIndex: 1}]);
+        ])).thenResolve([{label: 'RULE2', picked: true, ruleIndex: 1, description: ''}]);
 
         const commandFactory = new CommandFactory(
             new SelectionInfoRegistry(),

@@ -103,19 +103,6 @@ A couple of requests from me when you raise an github issue.
     ]
     ```
 
-* `partialDiff.enableTelemetry` (default: `true`)
-
-    Allow the extension usage data to be sent to the extension author.
-    
-    Partial Diff sends usage data only when **both** `partialDiff.enableTelemetry` and
-    [`telemetry.enableTelemetry`](https://code.visualstudio.com/docs/supporting/faq#_how-to-disable-telemetry-reporting)
-    are set to `true`.
-
-* `partialDiff.hideCommandsOnContextMenu` (default: `false`)
-
-    (DEPRECATED) Hide Partial Diff commands on the context menu.
-    Please use `partialDiff.commandsOnContextMenu` instead.
-
 ## Keyboard Shortcuts
 
 You can quickly mark the selected text by adding the `partial-diff` commands to your keyboard shortcut settings. For example:
@@ -144,5 +131,5 @@ You can quickly mark the selected text by adding the `partial-diff` commands to 
 1. Before you make a pull request, you can run linter and tests to avoid build failure
 
     ```sh
-    $ yarn run prep
+    $ npm run prep
     ```

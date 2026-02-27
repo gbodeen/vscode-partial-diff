@@ -23,7 +23,7 @@ export default class TextEditor {
         return this.extractLineRanges(validSelections);
     }
 
-    private collectNonEmptySelections(selections: Selection[]): Selection[] {
+    private collectNonEmptySelections(selections: readonly Selection[]): Selection[] {
         return selections.filter(s => !s.isEmpty).sort((s1, s2) => {
             const lineComparison = s1.start.line - s2.start.line;
             return lineComparison !== 0
@@ -32,7 +32,7 @@ export default class TextEditor {
         });
     }
 
-    private extractText(selections: Selection[]): string {
+    private extractText(selections: readonly Selection[]): string {
         return selections.length === 0
             ? this.extractTextFromSelection()
             : selections.map(this.extractTextFromSelection).join('\n');
@@ -41,7 +41,7 @@ export default class TextEditor {
     private extractTextFromSelection = (selection?: Selection) =>
         this.vsEditor.document.getText(selection)
 
-    private extractLineRanges(selections: Selection[]): LineRange[] {
+    private extractLineRanges(selections: readonly Selection[]): LineRange[] {
         return selections.map(selection => ({
             start: selection.start.line,
             end: selection.end.line

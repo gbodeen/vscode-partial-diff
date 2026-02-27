@@ -24,7 +24,7 @@ export default class CommandAdaptor {
 
     registerCommand(cmd: CommandItem): vscode.Disposable {
         const registerer = this.getCommandRegisterer(cmd.type);
-        const command = new CommandWrapper(cmd.name, cmd.command, this.logger);
+        const command = new CommandWrapper(cmd.command, this.logger);
         return registerer(cmd.name, command.execute, command);
     }
 

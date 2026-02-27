@@ -19,7 +19,7 @@ suite('CompareSelectionWithClipboardCommand', () => {
 
     test('it compares selected text with clipboard text', async () => {
         const clipboard = mockMethods<typeof vscode.env.clipboard>(['readText']);
-        when(clipboard.readText()).thenResolve('CLIPBOARD_TEXT');
+        when(clipboard.readText()).thenReturn(Promise.resolve('CLIPBOARD_TEXT'));
 
         const commandAdaptor = mock(CommandAdaptor);
         const windowAdaptor = mock(WindowAdaptor);

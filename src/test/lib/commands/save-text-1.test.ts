@@ -9,7 +9,7 @@ suite('SelectText1Command', () => {
     const editor = mockType<TextEditor>({
         selectedText: 'SELECTED_TEXT',
         fileName: 'FILENAME',
-        selectedLineRanges: 'SELECTED_RANGE'
+        selectedLineRanges: [{start: 0, end: 1}]
     });
     const selectionInfoRegistry = new SelectionInfoRegistry();
     const command = new SelectText1Command(selectionInfoRegistry);
@@ -20,7 +20,7 @@ suite('SelectText1Command', () => {
         assert.deepEqual(selectionInfoRegistry.get('reg1'), {
             text: 'SELECTED_TEXT',
             fileName: 'FILENAME',
-            lineRanges: 'SELECTED_RANGE'
+            lineRanges: [{start: 0, end: 1}]
         });
     });
 });

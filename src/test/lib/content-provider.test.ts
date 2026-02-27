@@ -16,7 +16,7 @@ suite('ContentProvider', () => {
 
     suite('When normalisation rules are given', () => {
         const normalisationRuleStore = mockType<NormalisationRuleStore>({
-            activeRules: [{match: '_', replaceWith: ':'}]
+            activeRules: [{match: '_', replaceWith: ':', active: true}]
         });
         const contentProvider = new ContentProvider(selectionInfoRegistry, normalisationRuleStore);
 

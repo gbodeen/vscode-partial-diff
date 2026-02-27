@@ -4,11 +4,8 @@ src/**/*
 coverage/**/*
 images/public.gif
 npm-debug.log
-yarn.lock
-yarn-error.log
 __*
 __*/**/*
-.codeclimate.yml
 .editorconfig
 .gitattributes
 .gitignore
@@ -16,11 +13,9 @@ __*/**/*
 .nvmrc
 .nyc_output/**/*
 .nycrc
-.travis.yml
 .mocharc.json
 out/**/*
 node_modules/**/*
 tsconfig.json
-tslint.json
 tag-release.sh
 webpack.config.js
