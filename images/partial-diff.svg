@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <g>
+    <rect x="18" y="0" width="172" height="224" rx="18" fill="#70abf3"/>
+    <rect x="18" y="72" width="172" height="70" rx="12" fill="#db7373"/>
+  </g>
+  <g>
+		<defs>
+			<mask id="cornermask">
+      	<rect x="66" y="32" width="172" height="224" rx="18" fill="white"/>
+      	<path d="M238 256 L198 256 L238 216 Z" fill="black"/>
+    	</mask>
+		</defs>
+    <rect x="66" y="32" width="172" height="224" rx="18"
+          fill="#2876ea" mask="url(#cornermask)"/>
+    <rect x="66" y="104" width="172" height="70" rx="12" fill="#FFA24A"/>
+    <path d="M198 216 L198 256 L238 216 Z" fill="#70abf3"/>
+  </g>
+</svg>

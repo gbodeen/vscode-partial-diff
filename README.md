@@ -1,7 +1,6 @@
-[![Build Status](https://travis-ci.org/ryu1kn/vscode-partial-diff.svg?branch=master)](https://travis-ci.org/ryu1kn/vscode-partial-diff)
-[![Code Climate](https://codeclimate.com/github/ryu1kn/vscode-partial-diff/badges/gpa.svg)](https://codeclimate.com/github/ryu1kn/vscode-partial-diff)
-
 # Partial Diff
+
+This is a fork of the [Partial Diff VSCode extension by ryu1kn](https://github.com/ryu1kn/vscode-partial-diff). 
 
 ## Features
 
@@ -11,11 +10,11 @@
 * User defined text normalization rules can be toggled off without removing them from the configuration.
 * Compare text in 2 visible editors (i.e. tabs) with one action.
 
-![Compare two text selections](https://raw.githubusercontent.com/ryu1kn/vscode-partial-diff/master/images/public.gif)
+![Compare two text selections](https://raw.githubusercontent.com/gbodeen/vscode-partial-diff/master/images/public.gif)
 
 ## Request Features or Report Bugs
 
-Feature requests and bug reports are very welcome: https://github.com/ryu1kn/vscode-partial-diff/issues
+Feature requests and bug reports are very welcome: https://github.com/gbodeen/vscode-partial-diff/issues
 
 A couple of requests from me when you raise an github issue.
 
@@ -136,7 +135,7 @@ You can quickly mark the selected text by adding the `partial-diff` commands to 
 
 ## Changelog
 
-* https://github.com/ryu1kn/vscode-partial-diff/blob/master/CHANGELOG.md
+* https://github.com/gbodeen/vscode-partial-diff/blob/master/CHANGELOG.md
 
 ## How to Contribute
 
