@@ -43,6 +43,12 @@
 						"markSection2AndTakeDiff": {
 							"type": "boolean"
 						},
+						"diffSelectionWithClipboard": {
+							"type": "boolean"
+						},
+						"diffVisibleEditors": {
+							"type": "boolean"
+						},
 						"togglePreComparisonTextNormalizationRules": {
 							"type": "boolean"
 						}
@@ -50,6 +56,8 @@
 					"default": {
 						"markSection1": true,
 						"markSection2AndTakeDiff": true,
+						"diffSelectionWithClipboard": false,
+						"diffVisibleEditors": false,
 						"togglePreComparisonTextNormalizationRules": false
 					},
 					"additionalProperties": false
@@ -113,6 +121,16 @@
 				"category": "PartialDiff"
 			},
 			{
+				"command": "extension.partialDiff.diffSelectionWithClipboard",
+				"title": "Compare with Clipboard",
+				"category": "PartialDiff"
+			},
+			{
+				"command": "extension.partialDiff.diffVisibleEditors",
+				"title": "Compare Text in Visible Editors",
+				"category": "PartialDiff"
+			},
+			{
 				"command": "extension.partialDiff.togglePreComparisonTextNormalizationRules",
 				"title": "Toggle Pre-Comparison Text Normalization Rules",
 				"category": "PartialDiff"
@@ -129,6 +147,16 @@
 					"command": "extension.partialDiff.markSection2AndTakeDiff",
 					"group": "2_partialdiff@2",
 					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.markSection2AndTakeDiff && partialDiff.hasSelection1"
+				},
+				{
+					"command": "extension.partialDiff.diffSelectionWithClipboard",
+					"group": "2_partialdiff@3",
+					"when": "editorTextFocus && editorHasSelection && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.diffSelectionWithClipboard && partialDiff.clipboardHasText"
+				},
+				{
+					"command": "extension.partialDiff.diffVisibleEditors",
+					"group": "2_partialdiff@4",
+					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.diffVisibleEditors"
 				},
 				{
 					"command": "extension.partialDiff.togglePreComparisonTextNormalizationRules",

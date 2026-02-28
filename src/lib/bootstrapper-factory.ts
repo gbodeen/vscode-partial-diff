@@ -15,14 +15,16 @@ export default class BootstrapperFactory {
 		const workspaceAdaptor = new WorkspaceAdaptor(vscode.workspace);
 		const commandAdaptor = new CommandAdaptor(vscode.commands, vscode.Uri.parse, logger);
 		const normalisationRuleStore = new NormalisationRuleStore(workspaceAdaptor);
+		const windowAdaptor = new WindowAdaptor(vscode.window);
 		const commandFactory = new CommandFactory(
 			selectionInfoRegistry,
 			normalisationRuleStore,
 			commandAdaptor,
-			new WindowAdaptor(vscode.window),
+			windowAdaptor,
+			vscode.env.clipboard,
 			() => new Date()
 		);
 		const contentProvider = new ContentProvider(selectionInfoRegistry, normalisationRuleStore);
-		return new Bootstrapper(commandFactory, contentProvider, workspaceAdaptor, commandAdaptor);
+		return new Bootstrapper(commandFactory, contentProvider, workspaceAdaptor, commandAdaptor, windowAdaptor, vscode.env.clipboard);
 	}
 }

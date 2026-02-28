@@ -4,16 +4,21 @@ import {EXTENSION_NAMESPACE, EXTENSION_SCHEME} from './const';
 import {ExecutionContextLike} from './types/vscode';
 import WorkspaceAdaptor from './adaptors/workspace';
 import CommandAdaptor, {CommandItem} from './adaptors/command';
+import WindowAdaptor from './adaptors/window';
+import * as vscode from 'vscode';
 
 export default class Bootstrapper {
     constructor(private readonly commandFactory: CommandFactory,
                 private readonly contentProvider: ContentProvider,
                 private readonly workspaceAdaptor: WorkspaceAdaptor,
-                private readonly commandAdaptor: CommandAdaptor) {}
+                private readonly commandAdaptor: CommandAdaptor,
+                private readonly windowAdaptor: WindowAdaptor,
+                private readonly clipboard: typeof vscode.env.clipboard) {}
 
     initiate(context: ExecutionContextLike) {
         this.registerProviders(context);
         this.registerCommands(context);
+        this.monitorClipboard(context);
     }
 
     private registerProviders(context: ExecutionContextLike) {
@@ -31,8 +36,28 @@ export default class Bootstrapper {
         });
     }
 
+    private monitorClipboard(context: ExecutionContextLike) {
+        this.updateClipboardContext();
+        const disposable = this.windowAdaptor.onDidChangeWindowState(state => {
+            if (state.focused) {
+                this.updateClipboardContext();
+            }
+        });
+        context.subscriptions.push(disposable);
+    }
+
+    private async updateClipboardContext() {
+        const text = await this.clipboard.readText();
+        this.commandAdaptor.setContext('partialDiff.clipboardHasText', text.length > 0);
+    }
+
     private get commandList(): CommandItem[] {
         return [
+            {
+                name: `${EXTENSION_NAMESPACE}.diffVisibleEditors`,
+                type: 'GENERAL',
+                command: this.commandFactory.createCompareVisibleEditorsCommand()
+            },
             {
                 name: `${EXTENSION_NAMESPACE}.markSection1`,
                 type: 'TEXT_EDITOR',
@@ -42,6 +67,11 @@ export default class Bootstrapper {
                 name: `${EXTENSION_NAMESPACE}.markSection2AndTakeDiff`,
                 type: 'TEXT_EDITOR',
                 command: this.commandFactory.createCompareSelectionWithText1Command()
+            },
+            {
+                name: `${EXTENSION_NAMESPACE}.diffSelectionWithClipboard`,
+                type: 'TEXT_EDITOR',
+                command: this.commandFactory.createCompareSelectionWithClipboardCommand()
             },
             {
                 name: `${EXTENSION_NAMESPACE}.togglePreComparisonTextNormalizationRules`,

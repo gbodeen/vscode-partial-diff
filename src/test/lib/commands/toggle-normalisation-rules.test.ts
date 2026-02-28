@@ -7,6 +7,7 @@ import SelectionInfoRegistry from '../../../lib/selection-info-registry';
 import WorkspaceAdaptor from '../../../lib/adaptors/workspace';
 import CommandAdaptor from '../../../lib/adaptors/command';
 import * as assert from 'assert';
+import * as vscode from 'vscode';
 
 suite('ToggleNormalisationRulesCommand', () => {
 
@@ -47,6 +48,7 @@ suite('ToggleNormalisationRulesCommand', () => {
 			normalisationRuleStore,
 			mock(CommandAdaptor),
 			windowAdaptor,
+			mockType<typeof vscode.env.clipboard>(),
 			() => new Date('2016-06-15T11:43:00Z')
 		);
 		return {
