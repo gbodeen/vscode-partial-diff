@@ -23,26 +23,26 @@ A couple of requests from me when you raise an github issue.
 
 ## Commands
 
-* `Select Text for Compare` (**Command ID:** `extension.partialDiff.markSection1`)
+* `Select Text for Compare` (**Command ID:** `extension.partialDiff.selectForCompare`)
 
     Marks the selected text as the text to compare the next selection with.
 
-* `Compare Text with Previous Selection` (**Command ID:** `extension.partialDiff.markSection2AndTakeDiff`)
+* `Compare Text with Previous Selection` (**Command ID:** `extension.partialDiff.compareWithSelected`)
 
     Compares the selected text to the first selection.
 
-* `Toggle Pre-Comparison Text Normalization Rules` (**Command ID:** `extension.partialDiff.togglePreComparisonTextNormalizationRules`)
+* `Change Diff Normalization` (**Command ID:** `extension.partialDiff.changeDiffNormalization`)
 
-    Toggle pre-comparison text normalization rules.
+    Change Diff Normalization.
 
 **NOTE:**
 
-* A diff will be shown only after selecting comparison text first (using `Select Text for Compare`) except `Compare Text in Visible Editors`.
-* Executing `Select Text for Compare`, `Compare Text with Previous Selection` or `Compare Text in Visible Editors` command without selecting any text will use the entire text of the current file.
+* A diff will be shown only after selecting comparison text first (using `Select Text for Compare`) except `Diff Visible Editors`.
+* Executing `Select Text for Compare`, `Compare Text with Previous Selection` or `Diff Visible Editors` command without selecting any text will use the entire text of the current file.
 
 ## Configurations
 
-* `partialDiff.commandsOnContextMenu` (default: `{"markSection1": true, ...}`, all commands visible)
+* `partialDiff.commandsOnContextMenu` (default: `{"selectForCompare": true, ...}`, all commands visible)
 
     Commands appear on the context menu. Unlisted commands will still appear.
 
@@ -91,9 +91,9 @@ A couple of requests from me when you raise an github issue.
 You can quickly mark the selected text by adding the `partial-diff` commands to your keyboard shortcut settings. For example:
 
 ```json
-  { "key": "ctrl+1", "command": "extension.partialDiff.markSection1",
+  { "key": "ctrl+1", "command": "extension.partialDiff.selectForCompare",
                         "when": "editorTextFocus" },
-  { "key": "ctrl+2", "command": "extension.partialDiff.markSection2AndTakeDiff",
+  { "key": "ctrl+2", "command": "extension.partialDiff.compareWithSelected",
                         "when": "editorTextFocus" },
 ```
 

@@ -37,28 +37,33 @@
 					"description": "Commands appear on the context menu. Unlisted commands will appear on the menu",
 					"type": "object",
 					"properties": {
-						"markSection1": {
+						"selectForCompare": {
+							"description": "Select for Compare",
 							"type": "boolean"
 						},
-						"markSection2AndTakeDiff": {
+						"compareWithSelected": {
+							"description": "Compare with Selected",
 							"type": "boolean"
 						},
-						"diffSelectionWithClipboard": {
+						"compareWithClipboard": {
+							"description": "Compare with Clipboard",
 							"type": "boolean"
 						},
 						"diffVisibleEditors": {
+							"description": "Diff Visible Editors",
 							"type": "boolean"
 						},
-						"togglePreComparisonTextNormalizationRules": {
+						"changeDiffNormalization": {
+							"description": "Change Diff Normalization",
 							"type": "boolean"
 						}
 					},
 					"default": {
-						"markSection1": true,
-						"markSection2AndTakeDiff": true,
-						"diffSelectionWithClipboard": false,
+						"selectForCompare": true,
+						"compareWithSelected": true,
+						"compareWithClipboard": false,
 						"diffVisibleEditors": false,
-						"togglePreComparisonTextNormalizationRules": false
+						"changeDiffNormalization": false
 					},
 					"additionalProperties": false
 				},
@@ -111,57 +116,57 @@
 		},
 		"commands": [
 			{
-				"command": "extension.partialDiff.markSection1",
+				"command": "extension.partialDiff.selectForCompare",
 				"title": "Select for Compare",
 				"category": "PartialDiff"
 			},
 			{
-				"command": "extension.partialDiff.markSection2AndTakeDiff",
+				"command": "extension.partialDiff.compareWithSelected",
 				"title": "Compare with Selected",
 				"category": "PartialDiff"
 			},
 			{
-				"command": "extension.partialDiff.diffSelectionWithClipboard",
+				"command": "extension.partialDiff.compareWithClipboard",
 				"title": "Compare with Clipboard",
 				"category": "PartialDiff"
 			},
 			{
 				"command": "extension.partialDiff.diffVisibleEditors",
-				"title": "Compare Text in Visible Editors",
+				"title": "Diff Visible Editors",
 				"category": "PartialDiff"
 			},
 			{
-				"command": "extension.partialDiff.togglePreComparisonTextNormalizationRules",
-				"title": "Toggle Pre-Comparison Text Normalization Rules",
+				"command": "extension.partialDiff.changeDiffNormalization",
+				"title": "Change Diff Normalization",
 				"category": "PartialDiff"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
-					"command": "extension.partialDiff.markSection1",
+					"command": "extension.partialDiff.selectForCompare",
 					"group": "2_partialdiff@1",
-					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.markSection1"
+					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.selectForCompare"
 				},
 				{
-					"command": "extension.partialDiff.markSection2AndTakeDiff",
+					"command": "extension.partialDiff.compareWithSelected",
 					"group": "2_partialdiff@2",
-					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.markSection2AndTakeDiff && partialDiff.hasSelection1"
+					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.compareWithSelected && partialDiff.hasSelection1"
 				},
 				{
-					"command": "extension.partialDiff.diffSelectionWithClipboard",
+					"command": "extension.partialDiff.compareWithClipboard",
 					"group": "2_partialdiff@3",
-					"when": "editorTextFocus && editorHasSelection && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.diffSelectionWithClipboard && partialDiff.clipboardHasText"
+					"when": "editorTextFocus && editorHasSelection && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.compareWithClipboard && partialDiff.clipboardHasText"
 				},
 				{
 					"command": "extension.partialDiff.diffVisibleEditors",
 					"group": "2_partialdiff@4",
-					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.diffVisibleEditors"
+					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.diffVisibleEditors && partialDiff.hasTwoVisibleEditors"
 				},
 				{
-					"command": "extension.partialDiff.togglePreComparisonTextNormalizationRules",
+					"command": "extension.partialDiff.changeDiffNormalization",
 					"group": "2_partialdiff@5",
-					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.togglePreComparisonTextNormalizationRules"
+					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.changeDiffNormalization"
 				}
 			]
 		}

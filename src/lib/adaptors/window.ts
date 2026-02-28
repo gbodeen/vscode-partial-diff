@@ -21,4 +21,8 @@ export default class WindowAdaptor {
     onDidChangeWindowState(listener: (e: vscode.WindowState) => void): vscode.Disposable {
         return this.window.onDidChangeWindowState(listener);
     }
+
+    onDidChangeVisibleTextEditors(listener: (editors: readonly VsTextEditor[]) => void): vscode.Disposable {
+        return this.window.onDidChangeVisibleTextEditors(listener);
+    }
 }
