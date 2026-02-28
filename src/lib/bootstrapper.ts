@@ -34,11 +34,6 @@ export default class Bootstrapper {
     private get commandList(): CommandItem[] {
         return [
             {
-                name: `${EXTENSION_NAMESPACE}.diffVisibleEditors`,
-                type: 'GENERAL',
-                command: this.commandFactory.createCompareVisibleEditorsCommand()
-            },
-            {
                 name: `${EXTENSION_NAMESPACE}.markSection1`,
                 type: 'TEXT_EDITOR',
                 command: this.commandFactory.crateSaveText1Command()
@@ -47,11 +42,6 @@ export default class Bootstrapper {
                 name: `${EXTENSION_NAMESPACE}.markSection2AndTakeDiff`,
                 type: 'TEXT_EDITOR',
                 command: this.commandFactory.createCompareSelectionWithText1Command()
-            },
-            {
-                name: `${EXTENSION_NAMESPACE}.diffSelectionWithClipboard`,
-                type: 'TEXT_EDITOR',
-                command: this.commandFactory.createCompareSelectionWithClipboardCommand()
             },
             {
                 name: `${EXTENSION_NAMESPACE}.togglePreComparisonTextNormalizationRules`,

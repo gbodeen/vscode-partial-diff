@@ -31,14 +31,6 @@ A couple of requests from me when you raise an github issue.
 
     Compares the selected text to the first selection.
 
-* `Compare Text with Clipboard` (**Command ID:** `extension.partialDiff.diffSelectionWithClipboard`)
-
-    Compares the current clipboard to the selected text.
-
-* `Compare Text in Visible Editors` (**Command ID:** `extension.partialDiff.diffVisibleEditors`)
-
-    Compares text in 2 visible editors.
-
 * `Toggle Pre-Comparison Text Normalization Rules` (**Command ID:** `extension.partialDiff.togglePreComparisonTextNormalizationRules`)
 
     Toggle pre-comparison text normalization rules.
@@ -53,15 +45,6 @@ A couple of requests from me when you raise an github issue.
 * `partialDiff.commandsOnContextMenu` (default: `{"markSection1": true, ...}`, all commands visible)
 
     Commands appear on the context menu. Unlisted commands will still appear.
-   
-    For example, if you don't want to see *Compare Text in Visible Editors* command (Command ID: `extension.partialDiff.diffVisibleEditors`)
-    on the context menu, you can set this setting as follows:
-
-    ```
-    "partialDiff.commandsOnContextMenu": {
-      "diffVisibleEditors": false
-    }
-    ```
 
 * `partialDiff.preComparisonTextNormalizationRules` (default: `[]`)
 
@@ -111,8 +94,6 @@ You can quickly mark the selected text by adding the `partial-diff` commands to 
   { "key": "ctrl+1", "command": "extension.partialDiff.markSection1",
                         "when": "editorTextFocus" },
   { "key": "ctrl+2", "command": "extension.partialDiff.markSection2AndTakeDiff",
-                        "when": "editorTextFocus" },
-  { "key": "ctrl+3", "command": "extension.partialDiff.diffSelectionWithClipboard",
                         "when": "editorTextFocus" },
 ```
 

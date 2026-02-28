@@ -11,9 +11,7 @@ export default class DiffPresenter {
                 normalisationRuleStore: NormalisationRuleStore,
                 private readonly commandAdaptor: CommandAdaptor,
                 private readonly getCurrentDate: () => Date) {
-        this.getCurrentDate = getCurrentDate;
         this.diffTitleBuilder = new DiffTitleBuilder(normalisationRuleStore, selectionInfoRegistry);
-        this.commandAdaptor = commandAdaptor;
     }
 
     takeDiff(textKey1: string, textKey2: string): Promise<{} | undefined> {

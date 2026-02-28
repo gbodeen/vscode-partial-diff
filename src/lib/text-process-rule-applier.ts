@@ -23,12 +23,9 @@ export default class TextProcessRuleApplier {
             return text.replace(pattern, rule.replaceWith);
         }
 
+        const {letterCase} = rule.replaceWith;
         return text.replace(pattern, matched => {
-            // Type guard above is not working, so even though this `if` is
-            // unnecessary logic, I need it to make typescript happy
-            if (typeof rule.replaceWith === 'string') return matched;
-
-            switch (rule.replaceWith.letterCase) {
+            switch (letterCase) {
                 case 'lower':
                     return matched.toLowerCase();
                 case 'upper':

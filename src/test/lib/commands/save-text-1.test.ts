@@ -12,7 +12,8 @@ suite('SelectText1Command', () => {
         selectedLineRanges: [{start: 0, end: 1}]
     });
     const selectionInfoRegistry = new SelectionInfoRegistry();
-    const command = new SelectText1Command(selectionInfoRegistry);
+    let onSavedCalled = false;
+    const command = new SelectText1Command(selectionInfoRegistry, () => { onSavedCalled = true; });
 
     test('it saves selected text', () => {
         command.execute(editor);
@@ -22,5 +23,9 @@ suite('SelectText1Command', () => {
             fileName: 'FILENAME',
             lineRanges: [{start: 0, end: 1}]
         });
+    });
+
+    test('it calls onSaved callback', () => {
+        assert.strictEqual(onSavedCalled, true);
     });
 });

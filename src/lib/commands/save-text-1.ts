@@ -4,7 +4,8 @@ import {Command} from './command';
 import TextEditor from '../adaptors/text-editor';
 
 export default class SaveText1Command implements Command {
-    constructor(private readonly selectionInfoRegistry: SelectionInfoRegistry) {}
+    constructor(private readonly selectionInfoRegistry: SelectionInfoRegistry,
+                private readonly onSaved: () => void) {}
 
     execute(editor: TextEditor) {
         const textInfo = {
@@ -13,6 +14,7 @@ export default class SaveText1Command implements Command {
             lineRanges: editor.selectedLineRanges
         };
         this.selectionInfoRegistry.set(TextKey.REGISTER1, textInfo);
+        this.onSaved();
     }
 
 }

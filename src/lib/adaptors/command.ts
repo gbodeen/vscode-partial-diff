@@ -22,6 +22,10 @@ export default class CommandAdaptor {
         return this.commands.executeCommand(name, this.parseUri(uri1), this.parseUri(uri2), title);
     }
 
+    setContext(key: string, value: unknown): Thenable<unknown> {
+        return this.commands.executeCommand('setContext', key, value);
+    }
+
     registerCommand(cmd: CommandItem): vscode.Disposable {
         const registerer = this.getCommandRegisterer(cmd.type);
         const command = new CommandWrapper(cmd.command, this.logger);

@@ -9,12 +9,10 @@ import CommandAdaptor from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
 
 export default class BootstrapperFactory {
-	private workspaceAdaptor?: WorkspaceAdaptor;
-
 	create() {
 		const logger = console;
 		const selectionInfoRegistry = new SelectionInfoRegistry();
-		const workspaceAdaptor = this.getWorkspaceAdaptor();
+		const workspaceAdaptor = new WorkspaceAdaptor(vscode.workspace);
 		const commandAdaptor = new CommandAdaptor(vscode.commands, vscode.Uri.parse, logger);
 		const normalisationRuleStore = new NormalisationRuleStore(workspaceAdaptor);
 		const commandFactory = new CommandFactory(
@@ -22,15 +20,9 @@ export default class BootstrapperFactory {
 			normalisationRuleStore,
 			commandAdaptor,
 			new WindowAdaptor(vscode.window),
-			vscode.env.clipboard,
 			() => new Date()
 		);
 		const contentProvider = new ContentProvider(selectionInfoRegistry, normalisationRuleStore);
 		return new Bootstrapper(commandFactory, contentProvider, workspaceAdaptor, commandAdaptor);
-	}
-
-	private getWorkspaceAdaptor() {
-		this.workspaceAdaptor = this.workspaceAdaptor || new WorkspaceAdaptor(vscode.workspace);
-		return this.workspaceAdaptor;
 	}
 }

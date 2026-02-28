@@ -1,8 +1,7 @@
-import {ObjectMap} from './utils/collections';
 import {SelectionInfo} from './types/selection-info';
 
 export default class SelectionInfoRegistry {
-    private readonly data: ObjectMap<SelectionInfo>;
+    private readonly data: Record<string, SelectionInfo>;
 
     constructor() {
         this.data = Object.create(null);

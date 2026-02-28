@@ -10,7 +10,6 @@ export default class ContentProvider implements TextDocumentContentProvider {
 
     constructor(private readonly selectionInfoRegistry: SelectionInfoRegistry,
                 normalisationRuleStore: NormalisationRuleStore) {
-        this.selectionInfoRegistry = selectionInfoRegistry;
         this.textProcessRuleApplier = new TextProcessRuleApplier(normalisationRuleStore);
     }
 
