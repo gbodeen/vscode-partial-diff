@@ -5,6 +5,10 @@ import { LineRange } from '../types/selection-info';
 export default class TextEditor {
 	constructor(private readonly vsEditor: VsTextEditor) { }
 
+	get uri(): string {
+		return this.vsEditor.document.uri.toString();
+	}
+
 	get fileName(): string {
 		return basename(this.vsEditor.document.fileName);
 	}

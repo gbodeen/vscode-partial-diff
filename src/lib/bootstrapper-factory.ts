@@ -7,6 +7,7 @@ import SelectionInfoRegistry from './selection-info-registry';
 import * as vscode from 'vscode';
 import CommandAdaptor from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
+import OpenEditorSnapshotStore from './open-editor-snapshot-store';
 
 export default class BootstrapperFactory {
 	create() {
@@ -16,15 +17,17 @@ export default class BootstrapperFactory {
 		const commandAdaptor = new CommandAdaptor(vscode.commands, vscode.Uri.parse, logger);
 		const normalizationRuleStore = new NormalizationRuleStore(workspaceAdaptor);
 		const windowAdaptor = new WindowAdaptor(vscode.window, vscode.workspace);
+		const openEditorSnapshotStore = new OpenEditorSnapshotStore();
 		const commandFactory = new CommandFactory(
 			selectionInfoRegistry,
 			normalizationRuleStore,
 			commandAdaptor,
 			windowAdaptor,
+			openEditorSnapshotStore,
 			vscode.env.clipboard,
 			() => new Date()
 		);
 		const contentProvider = new ContentProvider(selectionInfoRegistry, normalizationRuleStore);
-		return new Bootstrapper(commandFactory, contentProvider, workspaceAdaptor, commandAdaptor, windowAdaptor, vscode.env.clipboard);
+		return new Bootstrapper(commandFactory, contentProvider, workspaceAdaptor, commandAdaptor, windowAdaptor, openEditorSnapshotStore, vscode.env.clipboard);
 	}
 } 

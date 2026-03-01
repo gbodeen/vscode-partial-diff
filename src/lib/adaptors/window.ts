@@ -1,8 +1,18 @@
 import * as vscode from 'vscode';
 import TextEditor from './text-editor';
-import { QuickPickItem, TextEditor as VsTextEditor, Uri } from 'vscode';
-import { SelectionInfo } from '../types/selection-info';
+import {
+	QuickPickItem,
+	TextEditor as VsTextEditor,
+	Uri,
+	TextEditorSelectionChangeEvent
+} from 'vscode';
 import { basename } from 'path';
+
+export interface OpenTextEditorInfo {
+	uri: string;
+	text: string;
+	fileName: string;
+}
 
 // Duck-type check for TabInputText to avoid a runtime reference to the
 // vscode module (which is only available inside the extension host).
@@ -21,25 +31,24 @@ export default class WindowAdaptor {
 	}
 
 	get openTextEditorCount(): number {
-		return this.window.tabGroups.all
-			.flatMap(group => group.tabs)
-			.filter(tab => isTabInputText(tab.input))
-			.length;
+		return this.getOpenTextTabInputs().length;
 	}
 
-	async getOpenEditorInfos(): Promise<SelectionInfo[]> {
-		const tabs = this.window.tabGroups.all
-			.flatMap(group => group.tabs)
-			.filter(tab => isTabInputText(tab.input));
+	get openTextEditorUris(): string[] {
+		return this.getOpenTextTabInputs()
+			.map(tab => (tab.input as { uri: Uri }).uri.toString());
+	}
 
-		const infos: SelectionInfo[] = [];
+	async getOpenTextEditorInfos(): Promise<OpenTextEditorInfo[]> {
+		const tabs = this.getOpenTextTabInputs();
+		const infos: OpenTextEditorInfo[] = [];
 		for (const tab of tabs) {
 			const input = tab.input as { uri: Uri };
 			const doc = await this.workspace.openTextDocument(input.uri);
 			infos.push({
+				uri: input.uri.toString(),
 				text: doc.getText(),
-				fileName: basename(doc.fileName),
-				lineRanges: []
+				fileName: basename(doc.fileName)
 			});
 		}
 		return infos;
@@ -63,5 +72,15 @@ export default class WindowAdaptor {
 
 	onDidChangeVisibleTextEditors(listener: (editors: readonly VsTextEditor[]) => void): vscode.Disposable {
 		return this.window.onDidChangeVisibleTextEditors(listener);
+	}
+
+	onDidChangeTextEditorSelection(listener: (e: TextEditorSelectionChangeEvent) => void): vscode.Disposable {
+		return this.window.onDidChangeTextEditorSelection(listener);
+	}
+
+	private getOpenTextTabInputs(): vscode.Tab[] {
+		return this.window.tabGroups.all
+			.flatMap(group => group.tabs)
+			.filter(tab => isTabInputText(tab.input));
 	}
 }

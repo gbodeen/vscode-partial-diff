@@ -9,6 +9,7 @@ import NormalizationRuleStore from './normalization-rule-store';
 import SelectionInfoRegistry from './selection-info-registry';
 import CommandAdaptor from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
+import OpenEditorSnapshotStore from './open-editor-snapshot-store';
 import { Command } from './commands/command';
 import * as vscode from 'vscode';
 
@@ -19,6 +20,7 @@ export default class CommandFactory {
 		private readonly normalizationRuleStore: NormalizationRuleStore,
 		private readonly commandAdaptor: CommandAdaptor,
 		private readonly windowAdaptor: WindowAdaptor,
+		private readonly openEditorSnapshotStore: OpenEditorSnapshotStore,
 		private readonly clipboard: typeof vscode.env.clipboard,
 		private readonly getCurrentDate: () => Date) {
 	}
@@ -57,7 +59,8 @@ export default class CommandFactory {
 		return new CompareOpenEditorsCommand(
 			this.getDiffPresenter(),
 			this.selectionInfoRegistry,
-			this.windowAdaptor
+			this.windowAdaptor,
+			this.openEditorSnapshotStore
 		);
 	}
 

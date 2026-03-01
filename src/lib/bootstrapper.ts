@@ -4,6 +4,8 @@ import { EXTENSION_NAMESPACE, EXTENSION_SCHEME } from './const';
 import WorkspaceAdaptor from './adaptors/workspace';
 import CommandAdaptor, { CommandItem } from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
+import TextEditor from './adaptors/text-editor';
+import OpenEditorSnapshotStore from './open-editor-snapshot-store';
 import * as vscode from 'vscode';
 
 export default class Bootstrapper {
@@ -12,6 +14,7 @@ export default class Bootstrapper {
 		private readonly workspaceAdaptor: WorkspaceAdaptor,
 		private readonly commandAdaptor: CommandAdaptor,
 		private readonly windowAdaptor: WindowAdaptor,
+		private readonly openEditorSnapshotStore: OpenEditorSnapshotStore,
 		private readonly clipboard: typeof vscode.env.clipboard) { }
 
 	initiate(context: vscode.ExtensionContext) {
@@ -19,6 +22,7 @@ export default class Bootstrapper {
 		this.registerCommands(context);
 		this.monitorClipboard(context);
 		this.monitorVisibleEditors(context);
+		this.monitorTextSelections(context);
 		this.monitorOpenEditors(context);
 	}
 
@@ -53,16 +57,39 @@ export default class Bootstrapper {
 	}
 
 	private monitorVisibleEditors(context: vscode.ExtensionContext) {
-		this.updateVisibleEditorsContext();
+		const visibleEditors = this.windowAdaptor.visibleTextEditors;
+		this.updateVisibleEditorsContext(visibleEditors);
+		this.syncVisibleEditorSnapshots(visibleEditors);
 		const disposable = this.windowAdaptor.onDidChangeVisibleTextEditors(() => {
-			this.updateVisibleEditorsContext();
+			const currentVisibleEditors = this.windowAdaptor.visibleTextEditors;
+			this.updateVisibleEditorsContext(currentVisibleEditors);
+			this.syncVisibleEditorSnapshots(currentVisibleEditors);
 		});
 		context.subscriptions.push(disposable);
 	}
 
-	private updateVisibleEditorsContext() {
+	private updateVisibleEditorsContext(visibleEditors: TextEditor[]) {
 		this.commandAdaptor.setContext('partialDiff.hasTwoVisibleEditors',
-			this.windowAdaptor.visibleTextEditors.length === 2);
+			visibleEditors.length === 2);
+	}
+
+	private monitorTextSelections(context: vscode.ExtensionContext) {
+		const disposable = this.windowAdaptor.onDidChangeTextEditorSelection(event => {
+			this.cacheEditorSelection(new TextEditor(event.textEditor));
+		});
+		context.subscriptions.push(disposable);
+	}
+
+	private syncVisibleEditorSnapshots(visibleEditors: TextEditor[]) {
+		visibleEditors.forEach(editor => this.cacheEditorSelection(editor));
+	}
+
+	private cacheEditorSelection(editor: TextEditor) {
+		this.openEditorSnapshotStore.set(editor.uri, {
+			text: editor.selectedText,
+			fileName: editor.fileName,
+			lineRanges: editor.selectedLineRanges
+		});
 	}
 
 	private monitorOpenEditors(context: vscode.ExtensionContext) {
@@ -74,6 +101,7 @@ export default class Bootstrapper {
 	}
 
 	private updateOpenEditorsContext() {
+		this.openEditorSnapshotStore.prune(new Set(this.windowAdaptor.openTextEditorUris));
 		this.commandAdaptor.setContext('partialDiff.hasTwoOpenEditors',
 			this.windowAdaptor.openTextEditorCount === 2);
 	}

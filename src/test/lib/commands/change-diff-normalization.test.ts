@@ -6,6 +6,7 @@ import CommandFactory from '../../../lib/command-factory';
 import SelectionInfoRegistry from '../../../lib/selection-info-registry';
 import WorkspaceAdaptor from '../../../lib/adaptors/workspace';
 import CommandAdaptor from '../../../lib/adaptors/command';
+import OpenEditorSnapshotStore from '../../../lib/open-editor-snapshot-store';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
@@ -48,6 +49,7 @@ suite('ChangeDiffNormalizationCommand', () => {
 			normalizationRuleStore,
 			mock(CommandAdaptor),
 			windowAdaptor,
+			new OpenEditorSnapshotStore(),
 			mockType<typeof vscode.env.clipboard>(),
 			() => new Date('2016-06-15T11:43:00Z')
 		);
