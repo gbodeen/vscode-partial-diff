@@ -65,10 +65,10 @@
 					"default": {
 						"selectForCompare": true,
 						"compareWithSelected": true,
-						"compareWithClipboard": false,
-						"compareVisibleEditors": false,
-						"compareOpenEditors": false,
-						"changeDiffNormalization": false
+						"compareWithClipboard": true,
+						"compareVisibleEditors": true,
+						"compareOpenEditors": true,
+						"changeDiffNormalization": true
 					},
 					"additionalProperties": false
 				},
