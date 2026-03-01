@@ -59,6 +59,7 @@ A couple of requests from me when you raise an github issue.
 
     The rules don't mutate texts in the editors. Only texts in diff views get normalized.
     If a diff is presented with text normalized, `~` is used in the diff title instead of `↔`)
+    When normalization rules are active, editable diff mode is disabled and comparison falls back to read-only diff.
 
     Each rule has `match`, `replaceWith`. `name` or `enableOnStart` are optional.
 

@@ -81,7 +81,6 @@ export default class CommandFactory {
 			this.normalizationRuleStore,
 			this.workspaceAdaptor,
 			this.commandAdaptor,
-			this.windowAdaptor,
 			this.editableDiffSessionManager,
 			this.getCurrentDate
 		);
