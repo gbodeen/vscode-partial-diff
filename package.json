@@ -115,7 +115,76 @@
 							"replaceWith"
 						]
 					},
-					"default": []
+					"default": [
+						{
+							"name": "Tabs to spaces",
+							"match": "\\t",
+							"replaceWith": " ",
+							"enableOnStart": false
+						},
+						{
+							"name": "Normalize CRLF/CR to LF",
+							"match": "\\r\\n?",
+							"replaceWith": "\n",
+							"enableOnStart": false
+						},
+						{
+							"name": "Trim trailing whitespace",
+							"match": "[ \\t]+(?=\\n|$)",
+							"replaceWith": "",
+							"enableOnStart": false
+						},
+						{
+							"name": "Collapse 3+ blank lines",
+							"match": "\\n{3,}",
+							"replaceWith": "\n\n",
+							"enableOnStart": false
+						},
+						{
+							"name": "Remove leading indentation",
+							"match": "(^|\\n)[ \\t]+",
+							"replaceWith": "$1",
+							"enableOnStart": false
+						},
+						{
+							"name": "Collapse repeated spaces/tabs",
+							"match": "[ \\t]{2,}",
+							"replaceWith": " ",
+							"enableOnStart": false
+						},
+						{
+							"name": "One space after comma",
+							"match": ", *([^,\\n]+)",
+							"replaceWith": ", $1",
+							"enableOnStart": false
+						},
+						{
+							"name": "Lowercase all text",
+							"match": "[\\s\\S]+",
+							"replaceWith": {
+								"letterCase": "lower"
+							},
+							"enableOnStart": false
+						},
+						{
+							"name": "Mask UUIDs",
+							"match": "\\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}\\b",
+							"replaceWith": "<UUID>",
+							"enableOnStart": false
+						},
+						{
+							"name": "Mask ISO-8601 timestamps",
+							"match": "\\b\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})\\b",
+							"replaceWith": "<TIMESTAMP>",
+							"enableOnStart": false
+						},
+						{
+							"name": "Mask long numeric IDs",
+							"match": "\\b\\d{6,}\\b",
+							"replaceWith": "<NUM>",
+							"enableOnStart": false
+						}
+					]
 				},
 				"partialDiff.enableEditableDiffs": {
 					"description": "Enable editing diff. Changes are applied back to source documents.",
