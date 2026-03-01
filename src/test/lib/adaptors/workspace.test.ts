@@ -1,8 +1,7 @@
 import WorkspaceAdaptor from '../../../lib/adaptors/workspace';
 import { mockMethods, when } from '../../helpers';
 import * as assert from 'assert';
-import * as vscode from 'vscode';
-import { WorkspaceConfiguration } from 'vscode';
+import type { WorkspaceConfiguration } from 'vscode';
 
 suite('WorkspaceAdaptor', () => {
 	test('it reads text normalization rules from vscode.workspace', () => {
@@ -11,7 +10,8 @@ suite('WorkspaceAdaptor', () => {
 			'RULES'
 		);
 
-		const workspace = mockMethods<typeof vscode.workspace>(['getConfiguration']);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const workspace = mockMethods<any>(['getConfiguration']);
 		when(workspace.getConfiguration('partialDiff')).thenReturn(extensionConfig);
 
 		const workspaceAdaptor = new WorkspaceAdaptor(workspace);

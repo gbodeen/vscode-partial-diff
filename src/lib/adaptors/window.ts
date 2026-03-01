@@ -7,6 +7,7 @@ import {
 	TextEditorSelectionChangeEvent
 } from 'vscode';
 import { basename } from 'path';
+import { SelectionRange } from '../types/selection-info';
 
 export interface OpenTextEditorInfo {
 	uri: string;
@@ -64,6 +65,37 @@ export default class WindowAdaptor {
 
 	async showInformationMessage(message: string): Promise<string | undefined> {
 		return this.window.showInformationMessage(message);
+	}
+
+	async showWarningMessage(message: string, ...actions: string[]): Promise<string | undefined> {
+		return this.window.showWarningMessage(message, ...actions);
+	}
+
+	showTextDocument(document: vscode.TextDocument, viewColumn?: vscode.ViewColumn): Thenable<VsTextEditor> {
+		return this.window.showTextDocument(document, viewColumn);
+	}
+
+	setSelectionInVisibleEditor(uri: vscode.Uri, selectionRange: SelectionRange): void {
+		const editor = this.window.visibleTextEditors
+			.find(visibleEditor => visibleEditor.document.uri.toString() === uri.toString());
+		if (!editor) {
+			return;
+		}
+		const selection = new vscode.Selection(
+			new vscode.Position(selectionRange.startLine, selectionRange.startChar),
+			new vscode.Position(selectionRange.endLine, selectionRange.endChar)
+		);
+		editor.selections = [selection];
+	}
+
+	async closeNonDiffTabsByUri(uris: vscode.Uri[]): Promise<void> {
+		const uriStrings = new Set(uris.map(u => u.toString()));
+		const strayTabs = this.window.tabGroups.all
+			.flatMap(group => group.tabs)
+			.filter(tab => isTabInputText(tab.input) && uriStrings.has((tab.input as { uri: Uri }).uri.toString()));
+		for (const tab of strayTabs) {
+			await this.window.tabGroups.close(tab);
+		}
 	}
 
 	onDidChangeWindowState(listener: (e: vscode.WindowState) => void): vscode.Disposable {

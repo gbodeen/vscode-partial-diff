@@ -20,7 +20,10 @@ export default class CompareVisibleEditorsCommand implements Command {
 		const textInfos = editors.map(editor => ({
 			text: editor.selectedText,
 			fileName: editor.fileName,
-			lineRanges: editor.selectedLineRanges
+			lineRanges: editor.selectedLineRanges,
+			sourceUri: editor.uri,
+			targetKind: editor.selectedLineRanges.length === 0 ? 'document' as const : 'selection' as const,
+			selectionRange: editor.singleSelectionRange
 		}));
 		this.registerTextInfo(
 			textInfos,

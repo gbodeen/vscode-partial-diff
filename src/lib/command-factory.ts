@@ -12,14 +12,18 @@ import WindowAdaptor from './adaptors/window';
 import OpenEditorSnapshotStore from './open-editor-snapshot-store';
 import { Command } from './commands/command';
 import * as vscode from 'vscode';
+import WorkspaceAdaptor from './adaptors/workspace';
+import EditableDiffSessionManager from './editable-diff-session-manager';
 
 export default class CommandFactory {
 	private diffPresenter?: DiffPresenter;
 
 	constructor(private readonly selectionInfoRegistry: SelectionInfoRegistry,
 		private readonly normalizationRuleStore: NormalizationRuleStore,
+		private readonly workspaceAdaptor: WorkspaceAdaptor,
 		private readonly commandAdaptor: CommandAdaptor,
 		private readonly windowAdaptor: WindowAdaptor,
+		private readonly editableDiffSessionManager: EditableDiffSessionManager,
 		private readonly openEditorSnapshotStore: OpenEditorSnapshotStore,
 		private readonly clipboard: typeof vscode.env.clipboard,
 		private readonly getCurrentDate: () => Date) {
@@ -75,7 +79,10 @@ export default class CommandFactory {
 		this.diffPresenter = this.diffPresenter || new DiffPresenter(
 			this.selectionInfoRegistry,
 			this.normalizationRuleStore,
+			this.workspaceAdaptor,
 			this.commandAdaptor,
+			this.windowAdaptor,
+			this.editableDiffSessionManager,
 			this.getCurrentDate
 		);
 		return this.diffPresenter;

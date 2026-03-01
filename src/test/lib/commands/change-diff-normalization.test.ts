@@ -9,6 +9,7 @@ import CommandAdaptor from '../../../lib/adaptors/command';
 import OpenEditorSnapshotStore from '../../../lib/open-editor-snapshot-store';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
+import EditableDiffSessionManager from '../../../lib/editable-diff-session-manager';
 
 suite('ChangeDiffNormalizationCommand', () => {
 
@@ -47,8 +48,10 @@ suite('ChangeDiffNormalizationCommand', () => {
 		const commandFactory = new CommandFactory(
 			new SelectionInfoRegistry(),
 			normalizationRuleStore,
+			workspace,
 			mock(CommandAdaptor),
 			windowAdaptor,
+			mock(EditableDiffSessionManager),
 			new OpenEditorSnapshotStore(),
 			mockType<typeof vscode.env.clipboard>(),
 			() => new Date('2016-06-15T11:43:00Z')

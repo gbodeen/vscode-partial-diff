@@ -15,7 +15,7 @@ export default class CompareOpenEditorsCommand implements Command {
 	async execute() {
 		const openEditors = await this.windowAdaptor.getOpenTextEditorInfos();
 		const openEditorInfos = openEditors.map(editor =>
-			this.openEditorSnapshotStore.get(editor.uri) || this.toSelectionInfo(editor.text, editor.fileName)
+			this.openEditorSnapshotStore.get(editor.uri) || this.toSelectionInfo(editor.uri, editor.text, editor.fileName)
 		);
 		if (openEditorInfos.length !== 2) {
 			this.windowAdaptor.showInformationMessage('Please first open exactly 2 documents to compare.');
@@ -28,7 +28,7 @@ export default class CompareOpenEditorsCommand implements Command {
 		await this.diffPresenter.takeDiff(TextKey.OPEN_EDITOR1, TextKey.OPEN_EDITOR2);
 	}
 
-	private toSelectionInfo(text: string, fileName: string): SelectionInfo {
-		return { text, fileName, lineRanges: [] };
+	private toSelectionInfo(uri: string, text: string, fileName: string): SelectionInfo {
+		return { text, fileName, lineRanges: [], sourceUri: uri, targetKind: 'document' };
 	}
 }
