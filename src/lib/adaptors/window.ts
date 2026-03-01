@@ -50,7 +50,6 @@ export default class WindowAdaptor {
 	}
 
 	async showQuickPick<T extends QuickPickItem>(items: T[]): Promise<T[] | undefined> {
-		// @ts-ignore
 		return this.window.showQuickPick(items, { canPickMany: true });
 	}
 

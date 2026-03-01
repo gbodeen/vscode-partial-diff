@@ -54,6 +54,6 @@ suite('ChangeDiffNormalizationCommand', () => {
 		return {
 			command: commandFactory.createChangeDiffNormalizationCommand(),
 			deps: { windowAdaptor, normalizationRuleStore }
-		} as any;
+		};
 	}
 });

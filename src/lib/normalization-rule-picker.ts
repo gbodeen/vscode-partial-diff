@@ -1,5 +1,5 @@
 import { QuickPickItem } from 'vscode';
-import { LoadedNormalizationRule } from './types/normalization-rule';
+import type { LoadedNormalizationRule } from './types/normalization-rule';
 import WindowAdaptor from './adaptors/window';
 
 interface NormalizationRuleQuickPickItem extends QuickPickItem {

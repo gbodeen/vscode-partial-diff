@@ -1,8 +1,8 @@
 import WorkspaceAdaptor from './adaptors/workspace';
-import { LoadedNormalizationRule, SavedNormalizationRule } from './types/normalization-rule';
-const isEqual = require('node:util').isDeepStrictEqual;
+import type { LoadedNormalizationRule, SavedNormalizationRule } from './types/normalization-rule';
+import { isDeepStrictEqual as isEqual } from 'node:util';
 
-const clone = (value: any) => JSON.parse(JSON.stringify(value));
+const clone = (value: unknown) => JSON.parse(JSON.stringify(value));
 
 export default class NormalizationRuleStore {
 	private baseRules?: SavedNormalizationRule[];

@@ -18,7 +18,7 @@ export default class CommandAdaptor {
 		private readonly parseUri: UriParser,
 		private readonly logger: Logger) { }
 
-	async executeCommand(name: string, uri1: string, uri2: string, title: string): Promise<{} | undefined> {
+	async executeCommand(name: string, uri1: string, uri2: string, title: string): Promise<unknown> {
 		return this.commands.executeCommand(name, this.parseUri(uri1), this.parseUri(uri2), title);
 	}
 

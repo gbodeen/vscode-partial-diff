@@ -1,6 +1,7 @@
 import * as td from 'testdouble';
 import * as assert from 'assert';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function mock<T>(c: new (...args: any[]) => T): T {
 	return new (td.constructor(c));
 }
@@ -18,6 +19,7 @@ export const when = td.when;
 export const contains = td.matchers.contains;
 export const any = td.matchers.anything;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function wrapVerify(invokeCallback: (...args: any[]) => void, expectedCalls: any[][] | { [key: string]: any[] }) {
 	const captors = [td.matchers.captor(), td.matchers.captor(), td.matchers.captor()];
 
@@ -27,6 +29,7 @@ export function wrapVerify(invokeCallback: (...args: any[]) => void, expectedCal
 
 	Object.entries(expectedCalls).forEach(([key, value]) => {
 		const callIndex = toIndex(key);
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(value as any[]).forEach((expectedArg, argIndex) => {
 			const failureMessage = `Check argument ${argIndex} of call ${callIndex}`;
 			assert.deepEqual(captors[argIndex].values![callIndex], expectedArg, failureMessage);

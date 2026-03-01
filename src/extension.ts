@@ -1,9 +1,9 @@
 import BootstrapperFactory from './lib/bootstrapper-factory';
-import { ExecutionContextLike } from './lib/types/vscode';
+import type { ExtensionContext } from 'vscode';
 
 const bootstrapperFactory = new BootstrapperFactory();
 
-exports.activate = (context: ExecutionContextLike) => {
+exports.activate = (context: ExtensionContext) => {
 	const bootstrapper = bootstrapperFactory.create();
 	bootstrapper.initiate(context);
 }; 

@@ -2,6 +2,7 @@ import * as assert from 'assert';
 import { mockType } from '../helpers';
 import NormalizationRuleStore from '../../lib/normalization-rule-store';
 import TextProcessRuleApplier from '../../lib/text-process-rule-applier';
+import type { SavedNormalizationRule } from '../../lib/types/normalization-rule';
 
 suite('Text process rule applications', () => {
 	const text = 'TEXT_1';
@@ -28,7 +29,7 @@ suite('Text process rule applications', () => {
 		const activeRules = [
 			{
 				match: 'TE',
-				replaceWith: { letterCase: 'lower' }
+				replaceWith: { letterCase: 'lower' } as const
 			}
 		];
 		const applier = createTextProcessRuleApplier(activeRules);
@@ -39,7 +40,7 @@ suite('Text process rule applications', () => {
 		const activeRules = [
 			{
 				match: 'Register',
-				replaceWith: { letterCase: 'upper' }
+				replaceWith: { letterCase: 'upper' } as const
 			}
 		];
 		const applier = createTextProcessRuleApplier(activeRules);
@@ -55,8 +56,9 @@ suite('Text process rule applications', () => {
 		assert.deepEqual(applier.applyTo(text), 'tEXt:1');
 	});
 
-	function createTextProcessRuleApplier(activeRules: any) {
-		const normalizationRuleStore = mockType<NormalizationRuleStore>({ activeRules: activeRules || [] });
+	function createTextProcessRuleApplier(activeRules: SavedNormalizationRule[]) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const normalizationRuleStore = mockType<NormalizationRuleStore>({ activeRules: activeRules || [] } as any);
 		return new TextProcessRuleApplier(normalizationRuleStore);
 	}
 });
