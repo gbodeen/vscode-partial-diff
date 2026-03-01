@@ -5,6 +5,7 @@ import WindowAdaptor from '../../../lib/adaptors/window';
 import CommandFactory from '../../../lib/command-factory';
 import CommandAdaptor from '../../../lib/adaptors/command';
 import NormalizationRuleStore from '../../../lib/normalization-rule-store';
+import OpenEditorSnapshotStore from '../../../lib/open-editor-snapshot-store';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
@@ -78,6 +79,7 @@ suite('CompareVisibleEditorsCommand', () => {
 			mock(NormalizationRuleStore),
 			dependencies.commandAdaptor,
 			dependencies.windowAdaptor,
+			new OpenEditorSnapshotStore(),
 			mockType<typeof vscode.env.clipboard>(),
 			() => new Date('2016-06-15T11:43:00Z')
 		);

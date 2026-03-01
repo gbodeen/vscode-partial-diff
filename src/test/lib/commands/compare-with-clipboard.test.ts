@@ -5,6 +5,7 @@ import CommandFactory from '../../../lib/command-factory';
 import WindowAdaptor from '../../../lib/adaptors/window';
 import NormalizationRuleStore from '../../../lib/normalization-rule-store';
 import CommandAdaptor from '../../../lib/adaptors/command';
+import OpenEditorSnapshotStore from '../../../lib/open-editor-snapshot-store';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
@@ -24,7 +25,7 @@ suite('CompareWithClipboardCommand', () => {
 		const commandAdaptor = mock(CommandAdaptor);
 		const windowAdaptor = mock(WindowAdaptor);
 		const normalizationRuleStore = mock(NormalizationRuleStore);
-		const commandFactory = new CommandFactory(selectionInfoRegistry, normalizationRuleStore, commandAdaptor, windowAdaptor, clipboard, () => new Date('2016-06-15T11:43:00Z'));
+		const commandFactory = new CommandFactory(selectionInfoRegistry, normalizationRuleStore, commandAdaptor, windowAdaptor, new OpenEditorSnapshotStore(), clipboard, () => new Date('2016-06-15T11:43:00Z'));
 
 		const command = commandFactory.createCompareWithClipboardCommand();
 
