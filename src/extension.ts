@@ -6,4 +6,4 @@ const bootstrapperFactory = new BootstrapperFactory();
 exports.activate = (context: ExecutionContextLike) => {
 	const bootstrapper = bootstrapperFactory.create();
 	bootstrapper.initiate(context);
-};
+}; 

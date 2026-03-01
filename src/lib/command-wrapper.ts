@@ -5,7 +5,7 @@ import TextEditor from './adaptors/text-editor';
 
 export default class CommandWrapper {
 	constructor(private readonly command: Command,
-		private readonly logger: Logger) {}
+		private readonly logger: Logger) { }
 
 	async execute(editor?: vscode.TextEditor) {
 		try {

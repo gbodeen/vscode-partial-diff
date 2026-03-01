@@ -1,28 +1,28 @@
 import * as vscode from 'vscode';
 import TextEditor from './text-editor';
-import {QuickPickItem, TextEditor as VsTextEditor} from 'vscode';
+import { QuickPickItem, TextEditor as VsTextEditor } from 'vscode';
 
 export default class WindowAdaptor {
-    constructor(private readonly window: typeof vscode.window) {}
+	constructor(private readonly window: typeof vscode.window) { }
 
-    get visibleTextEditors(): TextEditor[] {
-        return this.window.visibleTextEditors.map((editor: VsTextEditor) => new TextEditor(editor));
-    }
+	get visibleTextEditors(): TextEditor[] {
+		return this.window.visibleTextEditors.map((editor: VsTextEditor) => new TextEditor(editor));
+	}
 
-    async showQuickPick<T extends QuickPickItem>(items: T[]): Promise<T[] | undefined> {
-        // @ts-ignore
-        return this.window.showQuickPick(items, {canPickMany: true});
-    }
+	async showQuickPick<T extends QuickPickItem>(items: T[]): Promise<T[] | undefined> {
+		// @ts-ignore
+		return this.window.showQuickPick(items, { canPickMany: true });
+	}
 
-    async showInformationMessage(message: string): Promise<string | undefined> {
-        return this.window.showInformationMessage(message);
-    }
+	async showInformationMessage(message: string): Promise<string | undefined> {
+		return this.window.showInformationMessage(message);
+	}
 
-    onDidChangeWindowState(listener: (e: vscode.WindowState) => void): vscode.Disposable {
-        return this.window.onDidChangeWindowState(listener);
-    }
+	onDidChangeWindowState(listener: (e: vscode.WindowState) => void): vscode.Disposable {
+		return this.window.onDidChangeWindowState(listener);
+	}
 
-    onDidChangeVisibleTextEditors(listener: (editors: readonly VsTextEditor[]) => void): vscode.Disposable {
-        return this.window.onDidChangeVisibleTextEditors(listener);
-    }
+	onDidChangeVisibleTextEditors(listener: (editors: readonly VsTextEditor[]) => void): vscode.Disposable {
+		return this.window.onDidChangeVisibleTextEditors(listener);
+	}
 }

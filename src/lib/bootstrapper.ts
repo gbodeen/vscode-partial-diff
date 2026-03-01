@@ -68,29 +68,29 @@ export default class Bootstrapper {
 	private get commandList(): CommandItem[] {
 		return [
 			{
-				name: `${EXTENSION_NAMESPACE}.diffVisibleEditors`,
+				name: `${EXTENSION_NAMESPACE}.compareVisibleEditors`,
 				type: 'GENERAL',
 				command: this.commandFactory.createCompareVisibleEditorsCommand()
 			},
 			{
 				name: `${EXTENSION_NAMESPACE}.selectForCompare`,
 				type: 'TEXT_EDITOR',
-				command: this.commandFactory.crateSaveText1Command()
+				command: this.commandFactory.createSelectForCompareCommand()
 			},
 			{
 				name: `${EXTENSION_NAMESPACE}.compareWithSelected`,
 				type: 'TEXT_EDITOR',
-				command: this.commandFactory.createCompareSelectionWithText1Command()
+				command: this.commandFactory.createCompareWithSelectedCommand()
 			},
 			{
 				name: `${EXTENSION_NAMESPACE}.compareWithClipboard`,
 				type: 'TEXT_EDITOR',
-				command: this.commandFactory.createCompareSelectionWithClipboardCommand()
+				command: this.commandFactory.createCompareWithClipboardCommand()
 			},
 			{
 				name: `${EXTENSION_NAMESPACE}.changeDiffNormalization`,
 				type: 'GENERAL',
-				command: this.commandFactory.createToggleNormalisationRulesCommand()
+				command: this.commandFactory.createChangeDiffNormalizationCommand()
 			}
 		];
 	}
