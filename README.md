@@ -1,6 +1,12 @@
 # Partial Diff
 
-This is a fork of the [Partial Diff VSCode extension by ryu1kn](https://github.com/ryu1kn/vscode-partial-diff). 
+This is a fork of the [Partial Diff VSCode extension by ryu1kn](https://github.com/ryu1kn/vscode-partial-diff). It has the following changes:
+
+* No telemetry
+* Renamed commands to follow VS Code convention, e.g. "Select for Compare" and "Compare with Selected".
+* Added "Compare Open Editors" command.
+* Added option to edit the diffs.
+* Added sample text normalization rules.
 
 ## Features
 
@@ -93,6 +99,10 @@ A couple of requests from me when you raise an github issue.
       ...
     ]
     ```
+
+* `partialDiff.enableEditableDiffs`
+
+	Enable to make the diffs editable. Edits will be applied to the source files when possible. When not possible (e.g. for the clipboard, or after normalization rules have been applied), the affected part of the diff will be read-only.
 
 ## Keyboard Shortcuts
 

@@ -2,9 +2,9 @@
 	"name": "partial-diff",
 	"displayName": "Partial Diff",
 	"description": "Compare (diff) text selections within a file, across files, or to the clipboard",
-	"version": "1.4.3",
+	"version": "2.0.0",
 	"publisher": "gbodeen",
-	"license": "SEE LICENSE IN LICENSE.txt",
+	"license": "MIT",
 	"icon": "images/partial-diff_128x128.png",
 	"bugs": {
 		"url": "https://github.com/gbodeen/vscode-partial-diff/issues"
