@@ -2,6 +2,7 @@ import NormalizationRulePicker from '../../lib/normalization-rule-picker';
 import * as assert from 'assert';
 import { mock, when } from '../helpers';
 import WindowAdaptor from '../../lib/adaptors/window';
+import type { LoadedNormalizationRule } from '../../lib/types/normalization-rule';
 
 suite('NormalizationRulePicker', () => {
 	const windowAdaptor = mock(WindowAdaptor);
@@ -36,8 +37,8 @@ suite('NormalizationRulePicker', () => {
 
 	test('it returns the index of active rules that user chose', async () => {
 		const activeRuleIndices = await rulePicker.show([
-			{ name: 'RULE_NAME_1', active: true } as any,
-			{ name: 'RULE_NAME_2', active: false } as any
+			{ name: 'RULE_NAME_1', active: true } as LoadedNormalizationRule,
+			{ name: 'RULE_NAME_2', active: false } as LoadedNormalizationRule
 		]);
 
 		assert.deepEqual(activeRuleIndices, [1]);
@@ -45,15 +46,15 @@ suite('NormalizationRulePicker', () => {
 
 	test('it returns the indices of all active rules if user dismissed the selection popup', async () => {
 		const activeRuleIndices = await rulePicker.show([
-			{ name: 'RULE_NAME_3', active: false } as any,
-			{ name: 'RULE_NAME_4', active: true }
+			{ name: 'RULE_NAME_3', active: false } as LoadedNormalizationRule,
+			{ name: 'RULE_NAME_4', active: true } as LoadedNormalizationRule
 		]);
 
 		assert.deepEqual(activeRuleIndices, [1]);
 	});
 
 	test('it shows a note to tell the user that no name is given for the rule', async () => {
-		const activeRuleIndices = await rulePicker.show([{ active: true } as any]);
+		const activeRuleIndices = await rulePicker.show([{ active: true } as LoadedNormalizationRule]);
 
 		assert.deepEqual(activeRuleIndices, []);
 	});

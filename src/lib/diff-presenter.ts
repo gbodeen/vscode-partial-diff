@@ -14,7 +14,7 @@ export default class DiffPresenter {
 		this.diffTitleBuilder = new DiffTitleBuilder(normalizationRuleStore, selectionInfoRegistry);
 	}
 
-	takeDiff(textKey1: string, textKey2: string): Promise<{} | undefined> {
+	takeDiff(textKey1: string, textKey2: string): Promise<unknown> {
 		const getUri = (textKey: string) => makeUriString(textKey, this.getCurrentDate());
 		const title = this.diffTitleBuilder.build(textKey1, textKey2);
 		return this.commandAdaptor.executeCommand('vscode.diff', getUri(textKey1), getUri(textKey2), title);

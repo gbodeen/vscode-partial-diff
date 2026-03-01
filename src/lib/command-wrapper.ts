@@ -12,6 +12,7 @@ export default class CommandWrapper {
 			return await this.command.execute(editor && new TextEditor(editor));
 		} catch (e) {
 			this.handleError(e);
+			return undefined;
 		}
 	}
 

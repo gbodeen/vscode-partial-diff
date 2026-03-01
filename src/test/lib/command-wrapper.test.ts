@@ -19,9 +19,9 @@ suite('CommandWrapper', () => {
 		}
 	}
 
-	const goodEditor = mockType<vscode.TextEditor>({ document: { fileName: 'good' } as any });
-	const badSyncEditor = mockType<vscode.TextEditor>({ document: { fileName: 'bad - sync' } as any });
-	const badAsyncEditor = mockType<vscode.TextEditor>({ document: { fileName: 'bad - async' } as any });
+	const goodEditor = mockType<vscode.TextEditor>({ document: { fileName: 'good' } as unknown as vscode.TextDocument });
+	const badSyncEditor = mockType<vscode.TextEditor>({ document: { fileName: 'bad - sync' } as unknown as vscode.TextDocument });
+	const badAsyncEditor = mockType<vscode.TextEditor>({ document: { fileName: 'bad - async' } as unknown as vscode.TextDocument });
 
 	const command = new MockCommand();
 

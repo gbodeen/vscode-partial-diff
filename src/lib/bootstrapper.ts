@@ -1,7 +1,6 @@
 import CommandFactory from './command-factory';
 import ContentProvider from './content-provider';
 import { EXTENSION_NAMESPACE, EXTENSION_SCHEME } from './const';
-import { ExecutionContextLike } from './types/vscode';
 import WorkspaceAdaptor from './adaptors/workspace';
 import CommandAdaptor, { CommandItem } from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
@@ -15,7 +14,7 @@ export default class Bootstrapper {
 		private readonly windowAdaptor: WindowAdaptor,
 		private readonly clipboard: typeof vscode.env.clipboard) { }
 
-	initiate(context: ExecutionContextLike) {
+	initiate(context: vscode.ExtensionContext) {
 		this.registerProviders(context);
 		this.registerCommands(context);
 		this.monitorClipboard(context);
@@ -23,7 +22,7 @@ export default class Bootstrapper {
 		this.monitorOpenEditors(context);
 	}
 
-	private registerProviders(context: ExecutionContextLike) {
+	private registerProviders(context: vscode.ExtensionContext) {
 		const disposable = this.workspaceAdaptor.registerTextDocumentContentProvider(
 			EXTENSION_SCHEME,
 			this.contentProvider
@@ -31,14 +30,14 @@ export default class Bootstrapper {
 		context.subscriptions.push(disposable);
 	}
 
-	private registerCommands(context: ExecutionContextLike) {
+	private registerCommands(context: vscode.ExtensionContext) {
 		this.commandList.forEach(cmd => {
 			const disposable = this.commandAdaptor.registerCommand(cmd);
 			context.subscriptions.push(disposable);
 		});
 	}
 
-	private monitorClipboard(context: ExecutionContextLike) {
+	private monitorClipboard(context: vscode.ExtensionContext) {
 		this.updateClipboardContext();
 		const disposable = this.windowAdaptor.onDidChangeWindowState(state => {
 			if (state.focused) {
@@ -53,7 +52,7 @@ export default class Bootstrapper {
 		this.commandAdaptor.setContext('partialDiff.clipboardHasText', text.length > 0);
 	}
 
-	private monitorVisibleEditors(context: ExecutionContextLike) {
+	private monitorVisibleEditors(context: vscode.ExtensionContext) {
 		this.updateVisibleEditorsContext();
 		const disposable = this.windowAdaptor.onDidChangeVisibleTextEditors(() => {
 			this.updateVisibleEditorsContext();
@@ -66,7 +65,7 @@ export default class Bootstrapper {
 			this.windowAdaptor.visibleTextEditors.length === 2);
 	}
 
-	private monitorOpenEditors(context: ExecutionContextLike) {
+	private monitorOpenEditors(context: vscode.ExtensionContext) {
 		this.updateOpenEditorsContext();
 		const disposable = this.windowAdaptor.onDidChangeTabs(() => {
 			this.updateOpenEditorsContext();

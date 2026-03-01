@@ -108,13 +108,15 @@ suite('TextEditor', () => {
 		return createEditorWithSelections(selections);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function createEditorWithSelections(selections: any[]) {
 		const selectionWithIsEmptyFlag = selections.map(s =>
 			Object.assign({}, s, { isEmpty: !s.text })
 		);
-		return new TextEditor(fakeEditor(selectionWithIsEmptyFlag) as any);
+		return new TextEditor(fakeEditor(selectionWithIsEmptyFlag));
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function fakeEditor(selections: any[]) {
 		const entireText = 'ENTIRE TEXT';
 		return mockType<vscode.TextEditor>({
@@ -122,10 +124,11 @@ suite('TextEditor', () => {
 			selection: selections[0],
 			document: {
 				fileName: 'FILENAME',
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				getText(selection: any) {
 					return selection ? selection.text : entireText;
 				}
-			} as any
+			} as unknown as vscode.TextDocument
 		});
 	}
 });

@@ -2,6 +2,7 @@ import NormalizationRuleStore from '../../lib/normalization-rule-store';
 import * as assert from 'assert';
 import WorkspaceAdaptor from '../../lib/adaptors/workspace';
 import { mock, when } from '../helpers';
+import type { LoadedNormalizationRule } from '../../lib/types/normalization-rule';
 
 suite('NormalizationRuleStore', () => {
 	let workspace: WorkspaceAdaptor;
@@ -37,7 +38,7 @@ suite('NormalizationRuleStore', () => {
 	test('it resets all rule states in the editor config', () => {
 		const activeRuleIndices = [1];
 		ruleStore.specifyActiveRules(activeRuleIndices);
-		workspace.get<any[]>('preComparisonTextNormalizationRules').push({ name: 'RULE_TMP' } as any);
+		workspace.get<LoadedNormalizationRule[]>('preComparisonTextNormalizationRules').push({ name: 'RULE_TMP' } as LoadedNormalizationRule);
 		assert.deepEqual(ruleStore.getAllRules(), [
 			{ name: 'RULE1', active: true },
 			{ name: 'RULE2', active: true },
