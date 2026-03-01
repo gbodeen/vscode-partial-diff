@@ -20,6 +20,7 @@ export default class Bootstrapper {
 		this.registerCommands(context);
 		this.monitorClipboard(context);
 		this.monitorVisibleEditors(context);
+		this.monitorOpenEditors(context);
 	}
 
 	private registerProviders(context: ExecutionContextLike) {
@@ -65,12 +66,30 @@ export default class Bootstrapper {
 			this.windowAdaptor.visibleTextEditors.length === 2);
 	}
 
+	private monitorOpenEditors(context: ExecutionContextLike) {
+		this.updateOpenEditorsContext();
+		const disposable = this.windowAdaptor.onDidChangeTabs(() => {
+			this.updateOpenEditorsContext();
+		});
+		context.subscriptions.push(disposable);
+	}
+
+	private updateOpenEditorsContext() {
+		this.commandAdaptor.setContext('partialDiff.hasTwoOpenEditors',
+			this.windowAdaptor.openTextEditorCount === 2);
+	}
+
 	private get commandList(): CommandItem[] {
 		return [
 			{
 				name: `${EXTENSION_NAMESPACE}.compareVisibleEditors`,
 				type: 'GENERAL',
 				command: this.commandFactory.createCompareVisibleEditorsCommand()
+			},
+			{
+				name: `${EXTENSION_NAMESPACE}.compareOpenEditors`,
+				type: 'GENERAL',
+				command: this.commandFactory.createCompareOpenEditorsCommand()
 			},
 			{
 				name: `${EXTENSION_NAMESPACE}.selectForCompare`,

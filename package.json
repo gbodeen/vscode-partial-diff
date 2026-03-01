@@ -53,6 +53,10 @@
 							"description": "Compare Visible Editors",
 							"type": "boolean"
 						},
+						"compareOpenEditors": {
+							"description": "Compare Open Editors",
+							"type": "boolean"
+						},
 						"changeDiffNormalization": {
 							"description": "Change Diff Normalization",
 							"type": "boolean"
@@ -63,6 +67,7 @@
 						"compareWithSelected": true,
 						"compareWithClipboard": false,
 						"compareVisibleEditors": false,
+						"compareOpenEditors": false,
 						"changeDiffNormalization": false
 					},
 					"additionalProperties": false
@@ -136,6 +141,11 @@
 				"category": "PartialDiff"
 			},
 			{
+				"command": "extension.partialDiff.compareOpenEditors",
+				"title": "Compare Open Editors",
+				"category": "PartialDiff"
+			},
+			{
 				"command": "extension.partialDiff.changeDiffNormalization",
 				"title": "Change Diff Normalization",
 				"category": "PartialDiff"
@@ -164,8 +174,13 @@
 					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.compareVisibleEditors && partialDiff.hasTwoVisibleEditors"
 				},
 				{
-					"command": "extension.partialDiff.changeDiffNormalization",
+					"command": "extension.partialDiff.compareOpenEditors",
 					"group": "2_partialdiff@5",
+					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.compareOpenEditors && partialDiff.hasTwoOpenEditors"
+				},
+				{
+					"command": "extension.partialDiff.changeDiffNormalization",
+					"group": "2_partialdiff@6",
 					"when": "editorTextFocus && !config.partialDiff.hideCommandsOnContextMenu && config.partialDiff.commandsOnContextMenu.changeDiffNormalization"
 				}
 			]

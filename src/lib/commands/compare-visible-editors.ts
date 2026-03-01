@@ -13,7 +13,7 @@ export default class CompareVisibleEditorsCommand implements Command {
 	async execute() {
 		const editors = this.windowAdaptor.visibleTextEditors;
 		if (editors.length !== 2) {
-			this.windowAdaptor.showInformationMessage('Please first open exactly 2 documents to compare.');
+			this.windowAdaptor.showInformationMessage('Please first open exactly 2 visible editors to compare.');
 			return;
 		}
 
