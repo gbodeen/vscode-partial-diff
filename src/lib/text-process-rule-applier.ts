@@ -1,38 +1,38 @@
-import NormalisationRuleStore from './normalisation-rule-store';
-import {LoadedNormalisationRule} from './types/normalisation-rule';
+import NormalizationRuleStore from './normalization-rule-store';
+import { LoadedNormalizationRule } from './types/normalization-rule';
 
 export default class TextProcessRuleApplier {
-    constructor(private readonly normalisationRuleStore: NormalisationRuleStore) {}
+	constructor(private readonly normalizationRuleStore: NormalizationRuleStore) { }
 
-    applyTo(text: string): string {
-        const rules = this.normalisationRuleStore.activeRules;
-        return rules.length !== 0 ? this.applyRulesToText(rules, text) : text;
-    }
+	applyTo(text: string): string {
+		const rules = this.normalizationRuleStore.activeRules;
+		return rules.length !== 0 ? this.applyRulesToText(rules, text) : text;
+	}
 
-    private applyRulesToText(rules: LoadedNormalisationRule[], text: string): string {
-        return rules.reduce(
-            (newText, rule) => this.applyRuleToText(rule, newText),
-            text
-        );
-    }
+	private applyRulesToText(rules: LoadedNormalizationRule[], text: string): string {
+		return rules.reduce(
+			(newText, rule) => this.applyRuleToText(rule, newText),
+			text
+		);
+	}
 
-    private applyRuleToText(rule: LoadedNormalisationRule, text: string): string {
-        const pattern = new RegExp(rule.match, 'g');
+	private applyRuleToText(rule: LoadedNormalizationRule, text: string): string {
+		const pattern = new RegExp(rule.match, 'g');
 
-        if (typeof rule.replaceWith === 'string') {
-            return text.replace(pattern, rule.replaceWith);
-        }
+		if (typeof rule.replaceWith === 'string') {
+			return text.replace(pattern, rule.replaceWith);
+		}
 
-        const {letterCase} = rule.replaceWith;
-        return text.replace(pattern, matched => {
-            switch (letterCase) {
-                case 'lower':
-                    return matched.toLowerCase();
-                case 'upper':
-                    return matched.toUpperCase();
-                default:
-                    return matched;
-            }
-        });
-    }
+		const { letterCase } = rule.replaceWith;
+		return text.replace(pattern, matched => {
+			switch (letterCase) {
+				case 'lower':
+					return matched.toLowerCase();
+				case 'upper':
+					return matched.toUpperCase();
+				default:
+					return matched;
+			}
+		});
+	}
 }

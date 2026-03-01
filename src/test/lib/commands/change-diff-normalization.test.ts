@@ -1,6 +1,6 @@
 import { mock, mockType, verify, when } from '../../helpers';
-import NormalisationRuleStore from '../../../lib/normalisation-rule-store';
-import { SavedNormalisationRule } from '../../../lib/types/normalisation-rule';
+import NormalizationRuleStore from '../../../lib/normalization-rule-store';
+import { SavedNormalizationRule } from '../../../lib/types/normalization-rule';
 import WindowAdaptor from '../../../lib/adaptors/window';
 import CommandFactory from '../../../lib/command-factory';
 import SelectionInfoRegistry from '../../../lib/selection-info-registry';
@@ -9,17 +9,17 @@ import CommandAdaptor from '../../../lib/adaptors/command';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
-suite('ToggleNormalisationRulesCommand', () => {
+suite('ChangeDiffNormalizationCommand', () => {
 
 	suite('When there are multiple rules registered', () => {
-		const rule1 = mockType<SavedNormalisationRule>({ name: 'RULE1' });
-		const rule2 = mockType<SavedNormalisationRule>({ name: 'RULE2' });
+		const rule1 = mockType<SavedNormalizationRule>({ name: 'RULE1' });
+		const rule2 = mockType<SavedNormalizationRule>({ name: 'RULE2' });
 		const { command, deps } = createCommand([rule1, rule2]);
 
-		test('it updates the status of normalisation rules as user specified', async () => {
+		test('it updates the status of normalization rules as user specified', async () => {
 			await command.execute();
 
-			assert.deepEqual(deps.normalisationRuleStore.activeRules, [{ name: 'RULE2', active: true }]);
+			assert.deepEqual(deps.normalizationRuleStore.activeRules, [{ name: 'RULE2', active: true }]);
 		});
 	});
 
@@ -33,10 +33,10 @@ suite('ToggleNormalisationRulesCommand', () => {
 		});
 	});
 
-	function createCommand(rules: SavedNormalisationRule[]) {
+	function createCommand(rules: SavedNormalizationRule[]) {
 		const workspace = mock(WorkspaceAdaptor);
 		when(workspace.get('preComparisonTextNormalizationRules')).thenReturn(rules);
-		const normalisationRuleStore = new NormalisationRuleStore(workspace);
+		const normalizationRuleStore = new NormalizationRuleStore(workspace);
 		const windowAdaptor = mock(WindowAdaptor);
 		when(windowAdaptor.showQuickPick([
 			{ label: 'RULE1', picked: true, ruleIndex: 0, description: '' },
@@ -45,15 +45,15 @@ suite('ToggleNormalisationRulesCommand', () => {
 
 		const commandFactory = new CommandFactory(
 			new SelectionInfoRegistry(),
-			normalisationRuleStore,
+			normalizationRuleStore,
 			mock(CommandAdaptor),
 			windowAdaptor,
 			mockType<typeof vscode.env.clipboard>(),
 			() => new Date('2016-06-15T11:43:00Z')
 		);
 		return {
-			command: commandFactory.createToggleNormalisationRulesCommand(),
-			deps: { windowAdaptor, normalisationRuleStore }
+			command: commandFactory.createChangeDiffNormalizationCommand(),
+			deps: { windowAdaptor, normalizationRuleStore }
 		} as any;
 	}
 });

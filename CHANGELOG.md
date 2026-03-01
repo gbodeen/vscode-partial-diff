@@ -35,11 +35,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [1.1.0] - 2018-04-21
 ### Added
-- Selectively enable text normalisation rules on the extension startup. [#25](https://github.com/ryu1kn/vscode-partial-diff/issues/25)
+- Selectively enable text normalization rules on the extension startup. [#25](https://github.com/ryu1kn/vscode-partial-diff/issues/25)
 
 ## [1.0.0] - 2018-04-19
 ### Added
-- Text normalisation rules can now be toggled off without changing the configuration. [#18](https://github.com/ryu1kn/vscode-partial-diff/issues/18)
+- Text normalization rules can now be toggled off without changing the configuration. [#18](https://github.com/ryu1kn/vscode-partial-diff/issues/18)
 
 ## [0.6.0] - 2018-04-15
 ### Added
@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.5.0] - 2017-11-12
 ### Added
-- Support user defined text normalisation rules to reduce the noise in the diff. [#15](https://github.com/ryu1kn/vscode-partial-diff/issues/15)
+- Support user defined text normalization rules to reduce the noise in the diff. [#15](https://github.com/ryu1kn/vscode-partial-diff/issues/15)
 
 ## [0.4.1] - 2017-10-28
 ### Fixed

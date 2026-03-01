@@ -2,7 +2,7 @@ import Bootstrapper from './bootstrapper';
 import CommandFactory from './command-factory';
 import WorkspaceAdaptor from './adaptors/workspace';
 import ContentProvider from './content-provider';
-import NormalisationRuleStore from './normalisation-rule-store';
+import NormalizationRuleStore from './normalization-rule-store';
 import SelectionInfoRegistry from './selection-info-registry';
 import * as vscode from 'vscode';
 import CommandAdaptor from './adaptors/command';
@@ -14,17 +14,17 @@ export default class BootstrapperFactory {
 		const selectionInfoRegistry = new SelectionInfoRegistry();
 		const workspaceAdaptor = new WorkspaceAdaptor(vscode.workspace);
 		const commandAdaptor = new CommandAdaptor(vscode.commands, vscode.Uri.parse, logger);
-		const normalisationRuleStore = new NormalisationRuleStore(workspaceAdaptor);
+		const normalizationRuleStore = new NormalizationRuleStore(workspaceAdaptor);
 		const windowAdaptor = new WindowAdaptor(vscode.window);
 		const commandFactory = new CommandFactory(
 			selectionInfoRegistry,
-			normalisationRuleStore,
+			normalizationRuleStore,
 			commandAdaptor,
 			windowAdaptor,
 			vscode.env.clipboard,
 			() => new Date()
 		);
-		const contentProvider = new ContentProvider(selectionInfoRegistry, normalisationRuleStore);
+		const contentProvider = new ContentProvider(selectionInfoRegistry, normalizationRuleStore);
 		return new Bootstrapper(commandFactory, contentProvider, workspaceAdaptor, commandAdaptor, windowAdaptor, vscode.env.clipboard);
 	}
-}
+} 

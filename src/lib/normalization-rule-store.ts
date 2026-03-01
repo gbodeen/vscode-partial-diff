@@ -1,23 +1,23 @@
 import WorkspaceAdaptor from './adaptors/workspace';
-import { LoadedNormalisationRule, SavedNormalisationRule } from './types/normalisation-rule';
+import { LoadedNormalizationRule, SavedNormalizationRule } from './types/normalization-rule';
 const isEqual = require('node:util').isDeepStrictEqual;
 
 const clone = (value: any) => JSON.parse(JSON.stringify(value));
 
-export default class NormalisationRuleStore {
-	private baseRules?: SavedNormalisationRule[];
-	private rules?: LoadedNormalisationRule[];
+export default class NormalizationRuleStore {
+	private baseRules?: SavedNormalizationRule[];
+	private rules?: LoadedNormalizationRule[];
 
 	constructor(private readonly workspace: WorkspaceAdaptor) {
-		this.setupRules(this.workspace.get<SavedNormalisationRule[]>('preComparisonTextNormalizationRules'));
+		this.setupRules(this.workspace.get<SavedNormalizationRule[]>('preComparisonTextNormalizationRules'));
 	}
 
-	private setupRules(rules: SavedNormalisationRule[]): void {
+	private setupRules(rules: SavedNormalizationRule[]): void {
 		this.baseRules = clone(rules);
 		this.rules = this.resetRuleStatus(this.baseRules!);
 	}
 
-	private resetRuleStatus(rules: SavedNormalisationRule[]): LoadedNormalisationRule[] {
+	private resetRuleStatus(rules: SavedNormalizationRule[]): LoadedNormalizationRule[] {
 		return rules.map(rule => {
 			const { enableOnStart, ...rest } = rule;
 			return Object.assign({}, rest, {
@@ -26,15 +26,15 @@ export default class NormalisationRuleStore {
 		});
 	}
 
-	getAllRules(): LoadedNormalisationRule[] {
-		const newBaseRules = this.workspace.get<SavedNormalisationRule[]>('preComparisonTextNormalizationRules');
+	getAllRules(): LoadedNormalizationRule[] {
+		const newBaseRules = this.workspace.get<SavedNormalizationRule[]>('preComparisonTextNormalizationRules');
 		if (!isEqual(newBaseRules, this.baseRules)) {
 			this.setupRules(newBaseRules);
 		}
 		return this.rules!;
 	}
 
-	get activeRules(): LoadedNormalisationRule[] {
+	get activeRules(): LoadedNormalizationRule[] {
 		return this.getAllRules().filter(rule => rule.active);
 	}
 

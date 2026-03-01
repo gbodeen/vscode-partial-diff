@@ -37,8 +37,8 @@ A couple of requests from me when you raise an github issue.
 
 **NOTE:**
 
-* A diff will be shown only after selecting comparison text first (using `Select Text for Compare`) except `Diff Visible Editors`.
-* Executing `Select Text for Compare`, `Compare Text with Previous Selection` or `Diff Visible Editors` command without selecting any text will use the entire text of the current file.
+* A diff will be shown only after selecting comparison text first (using `Select Text for Compare`) except `Compare Visible Editors`.
+* Executing `Select Text for Compare`, `Compare Text with Previous Selection` or `Compare Visible Editors` command without selecting any text will use the entire text of the current file.
 
 ## Configurations
 
@@ -55,7 +55,7 @@ A couple of requests from me when you raise an github issue.
 
     Each rule has `match`, `replaceWith`. `name` or `enableOnStart` are optional.
 
-    * `name`: Optional. Name of the rule to describe what the rule is for. You see this name on normalisation rule toggle menu.
+    * `name`: Optional. Name of the rule to describe what the rule is for. You see this name on normalization rule toggle menu.
     * `match`: Regular expression to find text you want to normalise. [Global search flag](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions?redirectlocale=en-US&redirectslug=JavaScript%2FGuide%2FRegular_Expressions#Advanced_searching_with_flags) is automatically applied.
     * `replaceWith`: One of the following
       * **Replacement text** as a string. You can use `$N`, where `N` is the index of substring (starting from 1) you captured in `match` with `()`.

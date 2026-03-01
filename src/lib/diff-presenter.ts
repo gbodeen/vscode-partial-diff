@@ -1,22 +1,22 @@
-import NormalisationRuleStore from './normalisation-rule-store';
+import NormalizationRuleStore from './normalization-rule-store';
 import SelectionInfoRegistry from './selection-info-registry';
-import {makeUriString} from './utils/text-resource';
+import { makeUriString } from './utils/text-resource';
 import CommandAdaptor from './adaptors/command';
 import DiffTitleBuilder from './diff-title-builder';
 
 export default class DiffPresenter {
-    private readonly diffTitleBuilder: DiffTitleBuilder;
+	private readonly diffTitleBuilder: DiffTitleBuilder;
 
-    constructor(selectionInfoRegistry: SelectionInfoRegistry,
-                normalisationRuleStore: NormalisationRuleStore,
-                private readonly commandAdaptor: CommandAdaptor,
-                private readonly getCurrentDate: () => Date) {
-        this.diffTitleBuilder = new DiffTitleBuilder(normalisationRuleStore, selectionInfoRegistry);
-    }
+	constructor(selectionInfoRegistry: SelectionInfoRegistry,
+		normalizationRuleStore: NormalizationRuleStore,
+		private readonly commandAdaptor: CommandAdaptor,
+		private readonly getCurrentDate: () => Date) {
+		this.diffTitleBuilder = new DiffTitleBuilder(normalizationRuleStore, selectionInfoRegistry);
+	}
 
-    takeDiff(textKey1: string, textKey2: string): Promise<{} | undefined> {
-        const getUri = (textKey: string) => makeUriString(textKey, this.getCurrentDate());
-        const title = this.diffTitleBuilder.build(textKey1, textKey2);
-        return this.commandAdaptor.executeCommand('vscode.diff', getUri(textKey1), getUri(textKey2), title);
-    }
+	takeDiff(textKey1: string, textKey2: string): Promise<{} | undefined> {
+		const getUri = (textKey: string) => makeUriString(textKey, this.getCurrentDate());
+		const title = this.diffTitleBuilder.build(textKey1, textKey2);
+		return this.commandAdaptor.executeCommand('vscode.diff', getUri(textKey1), getUri(textKey2), title);
+	}
 }

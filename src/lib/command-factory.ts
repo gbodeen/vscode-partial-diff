@@ -1,10 +1,10 @@
-import SaveText1Command from './commands/save-text-1';
-import CompareSelectionWithText1Command from './commands/compare-selection-with-text1';
-import CompareSelectionWithClipboardCommand from './commands/compare-selection-with-clipboard';
+import SetSelectionCommand from './commands/set-selection';
+import CompareWithSelectedCommand from './commands/compare-with-selected';
+import CompareWithClipboardCommand from './commands/compare-with-clipboard';
 import CompareVisibleEditorsCommand from './commands/compare-visible-editors';
 import DiffPresenter from './diff-presenter';
-import ToggleNormalisationRulesCommand from './commands/toggle-normalisation-rules';
-import NormalisationRuleStore from './normalisation-rule-store';
+import ChangeDiffNormalizationCommand from './commands/toggle-normalization-rules';
+import NormalizationRuleStore from './normalization-rule-store';
 import SelectionInfoRegistry from './selection-info-registry';
 import CommandAdaptor from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
@@ -15,29 +15,29 @@ export default class CommandFactory {
 	private diffPresenter?: DiffPresenter;
 
 	constructor(private readonly selectionInfoRegistry: SelectionInfoRegistry,
-		private readonly normalisationRuleStore: NormalisationRuleStore,
+		private readonly normalizationRuleStore: NormalizationRuleStore,
 		private readonly commandAdaptor: CommandAdaptor,
 		private readonly windowAdaptor: WindowAdaptor,
 		private readonly clipboard: typeof vscode.env.clipboard,
 		private readonly getCurrentDate: () => Date) {
 	}
 
-	crateSaveText1Command(): Command {
-		return new SaveText1Command(
+	createSelectForCompareCommand(): Command {
+		return new SetSelectionCommand(
 			this.selectionInfoRegistry,
 			() => { this.commandAdaptor.setContext('partialDiff.hasSelection1', true); }
 		);
 	}
 
-	createCompareSelectionWithText1Command(): Command {
-		return new CompareSelectionWithText1Command(
+	createCompareWithSelectedCommand(): Command {
+		return new CompareWithSelectedCommand(
 			this.getDiffPresenter(),
 			this.selectionInfoRegistry
 		);
 	}
 
-	createCompareSelectionWithClipboardCommand(): Command {
-		return new CompareSelectionWithClipboardCommand(
+	createCompareWithClipboardCommand(): Command {
+		return new CompareWithClipboardCommand(
 			this.getDiffPresenter(),
 			this.selectionInfoRegistry,
 			this.clipboard
@@ -52,9 +52,9 @@ export default class CommandFactory {
 		);
 	}
 
-	createToggleNormalisationRulesCommand(): Command {
-		return new ToggleNormalisationRulesCommand(
-			this.normalisationRuleStore,
+	createChangeDiffNormalizationCommand(): Command {
+		return new ChangeDiffNormalizationCommand(
+			this.normalizationRuleStore,
 			this.windowAdaptor
 		);
 	}
@@ -62,7 +62,7 @@ export default class CommandFactory {
 	private getDiffPresenter(): DiffPresenter {
 		this.diffPresenter = this.diffPresenter || new DiffPresenter(
 			this.selectionInfoRegistry,
-			this.normalisationRuleStore,
+			this.normalizationRuleStore,
 			this.commandAdaptor,
 			this.getCurrentDate
 		);
