@@ -9,5 +9,7 @@ export const TextKey = {
 	REGISTER2: 'reg2',
 	CLIPBOARD: 'clipboard',
 	VISIBLE_EDITOR1: 'visible1',
-	VISIBLE_EDITOR2: 'visible2'
-}; 
+	VISIBLE_EDITOR2: 'visible2',
+	OPEN_EDITOR1: 'open1',
+	OPEN_EDITOR2: 'open2'
+};

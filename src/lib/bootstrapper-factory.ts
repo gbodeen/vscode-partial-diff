@@ -15,7 +15,7 @@ export default class BootstrapperFactory {
 		const workspaceAdaptor = new WorkspaceAdaptor(vscode.workspace);
 		const commandAdaptor = new CommandAdaptor(vscode.commands, vscode.Uri.parse, logger);
 		const normalizationRuleStore = new NormalizationRuleStore(workspaceAdaptor);
-		const windowAdaptor = new WindowAdaptor(vscode.window);
+		const windowAdaptor = new WindowAdaptor(vscode.window, vscode.workspace);
 		const commandFactory = new CommandFactory(
 			selectionInfoRegistry,
 			normalizationRuleStore,

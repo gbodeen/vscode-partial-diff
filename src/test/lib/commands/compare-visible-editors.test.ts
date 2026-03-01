@@ -64,7 +64,7 @@ suite('CompareVisibleEditorsCommand', () => {
 		const { command, deps } = createCommand([editor1]);
 		await command.execute();
 
-		verify(deps.windowAdaptor.showInformationMessage('Please first open exactly 2 documents to compare.'));
+		verify(deps.windowAdaptor.showInformationMessage('Please first open exactly 2 visible editors to compare.'));
 	});
 
 	function createCommand(visibleTextEditors: TextEditor[]) {

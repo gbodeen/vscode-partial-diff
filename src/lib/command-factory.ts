@@ -2,6 +2,7 @@ import SetSelectionCommand from './commands/set-selection';
 import CompareWithSelectedCommand from './commands/compare-with-selected';
 import CompareWithClipboardCommand from './commands/compare-with-clipboard';
 import CompareVisibleEditorsCommand from './commands/compare-visible-editors';
+import CompareOpenEditorsCommand from './commands/compare-open-editors';
 import DiffPresenter from './diff-presenter';
 import ChangeDiffNormalizationCommand from './commands/toggle-normalization-rules';
 import NormalizationRuleStore from './normalization-rule-store';
@@ -46,6 +47,14 @@ export default class CommandFactory {
 
 	createCompareVisibleEditorsCommand(): Command {
 		return new CompareVisibleEditorsCommand(
+			this.getDiffPresenter(),
+			this.selectionInfoRegistry,
+			this.windowAdaptor
+		);
+	}
+
+	createCompareOpenEditorsCommand(): Command {
+		return new CompareOpenEditorsCommand(
 			this.getDiffPresenter(),
 			this.selectionInfoRegistry,
 			this.windowAdaptor
