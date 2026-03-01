@@ -1,20 +1,24 @@
 import CommandFactory from './command-factory';
 import ContentProvider from './content-provider';
-import { EXTENSION_NAMESPACE, EXTENSION_SCHEME } from './const';
+import { EDITABLE_DIFF_SCHEME, EXTENSION_NAMESPACE, EXTENSION_SCHEME } from './const';
 import WorkspaceAdaptor from './adaptors/workspace';
 import CommandAdaptor, { CommandItem } from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
 import TextEditor from './adaptors/text-editor';
 import OpenEditorSnapshotStore from './open-editor-snapshot-store';
+import EditableDiffSessionManager from './editable-diff-session-manager';
+import EditableDiffFileSystemProvider from './editable-diff-file-system-provider';
 import * as vscode from 'vscode';
 
 export default class Bootstrapper {
 	constructor(private readonly commandFactory: CommandFactory,
 		private readonly contentProvider: ContentProvider,
+		private readonly editableDiffFileSystemProvider: EditableDiffFileSystemProvider,
 		private readonly workspaceAdaptor: WorkspaceAdaptor,
 		private readonly commandAdaptor: CommandAdaptor,
 		private readonly windowAdaptor: WindowAdaptor,
 		private readonly openEditorSnapshotStore: OpenEditorSnapshotStore,
+		private readonly editableDiffSessionManager: EditableDiffSessionManager,
 		private readonly clipboard: typeof vscode.env.clipboard) { }
 
 	initiate(context: vscode.ExtensionContext) {
@@ -24,14 +28,20 @@ export default class Bootstrapper {
 		this.monitorVisibleEditors(context);
 		this.monitorTextSelections(context);
 		this.monitorOpenEditors(context);
+		context.subscriptions.push({ dispose: () => this.editableDiffSessionManager.dispose() });
 	}
 
 	private registerProviders(context: vscode.ExtensionContext) {
-		const disposable = this.workspaceAdaptor.registerTextDocumentContentProvider(
+		const textProviderDisposable = this.workspaceAdaptor.registerTextDocumentContentProvider(
 			EXTENSION_SCHEME,
 			this.contentProvider
 		);
-		context.subscriptions.push(disposable);
+		const editableFsDisposable = this.workspaceAdaptor.registerFileSystemProvider(
+			EDITABLE_DIFF_SCHEME,
+			this.editableDiffFileSystemProvider,
+			{ isCaseSensitive: true }
+		);
+		context.subscriptions.push(textProviderDisposable, editableFsDisposable);
 	}
 
 	private registerCommands(context: vscode.ExtensionContext) {
@@ -88,7 +98,10 @@ export default class Bootstrapper {
 		this.openEditorSnapshotStore.set(editor.uri, {
 			text: editor.selectedText,
 			fileName: editor.fileName,
-			lineRanges: editor.selectedLineRanges
+			lineRanges: editor.selectedLineRanges,
+			sourceUri: editor.uri,
+			targetKind: editor.selectedLineRanges.length === 0 ? 'document' : 'selection',
+			selectionRange: editor.singleSelectionRange
 		});
 	}
 

@@ -1,6 +1,6 @@
 import { Selection, TextEditor as VsTextEditor, ViewColumn } from 'vscode';
 import { basename } from 'path';
-import { LineRange } from '../types/selection-info';
+import { LineRange, SelectionRange } from '../types/selection-info';
 
 export default class TextEditor {
 	constructor(private readonly vsEditor: VsTextEditor) { }
@@ -25,6 +25,20 @@ export default class TextEditor {
 	get selectedLineRanges(): LineRange[] {
 		const validSelections = this.collectNonEmptySelections(this.vsEditor.selections);
 		return this.extractLineRanges(validSelections);
+	}
+
+	get singleSelectionRange(): SelectionRange | undefined {
+		const validSelections = this.collectNonEmptySelections(this.vsEditor.selections);
+		if (validSelections.length !== 1) {
+			return undefined;
+		}
+		const selection = validSelections[0];
+		return {
+			startLine: selection.start.line,
+			startChar: selection.start.character,
+			endLine: selection.end.line,
+			endChar: selection.end.character
+		};
 	}
 
 	private collectNonEmptySelections(selections: readonly Selection[]): Selection[] {

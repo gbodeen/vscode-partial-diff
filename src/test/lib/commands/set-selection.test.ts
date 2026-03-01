@@ -21,7 +21,8 @@ suite('SelectText1Command', () => {
 		assert.deepEqual(selectionInfoRegistry.get('reg1'), {
 			text: 'SELECTED_TEXT',
 			fileName: 'FILENAME',
-			lineRanges: [{ start: 0, end: 1 }]
+			lineRanges: [{ start: 0, end: 1 }],
+			targetKind: 'selection'
 		});
 	});
 

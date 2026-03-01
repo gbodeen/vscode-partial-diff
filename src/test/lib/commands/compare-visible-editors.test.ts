@@ -8,19 +8,25 @@ import NormalizationRuleStore from '../../../lib/normalization-rule-store';
 import OpenEditorSnapshotStore from '../../../lib/open-editor-snapshot-store';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
+import WorkspaceAdaptor from '../../../lib/adaptors/workspace';
+import EditableDiffSessionManager from '../../../lib/editable-diff-session-manager';
 
 suite('CompareVisibleEditorsCommand', () => {
 	const editor1 = mockType<TextEditor>({
 		viewColumn: 1,
 		selectedText: 'SELECTED_TEXT_1',
 		fileName: 'FILE1',
-		selectedLineRanges: [{ start: 5, end: 10 }]
+		uri: 'file:///1',
+		selectedLineRanges: [{ start: 5, end: 10 }],
+		singleSelectionRange: { startLine: 5, startChar: 0, endLine: 10, endChar: 1 }
 	});
 	const editor2 = mockType<TextEditor>({
 		viewColumn: 2,
 		selectedText: 'SELECTED_TEXT_2',
 		fileName: 'FILE2',
-		selectedLineRanges: [{ start: 15, end: 20 }]
+		uri: 'file:///2',
+		selectedLineRanges: [{ start: 15, end: 20 }],
+		singleSelectionRange: { startLine: 15, startChar: 0, endLine: 20, endChar: 1 }
 	});
 
 	test('it compares 2 visible editors', async () => {
@@ -30,12 +36,18 @@ suite('CompareVisibleEditorsCommand', () => {
 		assert.deepEqual(deps.selectionInfoRegistry.get('visible1'), {
 			text: 'SELECTED_TEXT_1',
 			fileName: 'FILE1',
-			lineRanges: [{ start: 5, end: 10 }]
+			lineRanges: [{ start: 5, end: 10 }],
+			sourceUri: 'file:///1',
+			targetKind: 'selection',
+			selectionRange: { startLine: 5, startChar: 0, endLine: 10, endChar: 1 }
 		});
 		assert.deepEqual(deps.selectionInfoRegistry.get('visible2'), {
 			text: 'SELECTED_TEXT_2',
 			fileName: 'FILE2',
-			lineRanges: [{ start: 15, end: 20 }]
+			lineRanges: [{ start: 15, end: 20 }],
+			sourceUri: 'file:///2',
+			targetKind: 'selection',
+			selectionRange: { startLine: 15, startChar: 0, endLine: 20, endChar: 1 }
 		});
 		verify(deps.commandAdaptor.executeCommand(
 			'vscode.diff',
@@ -52,12 +64,18 @@ suite('CompareVisibleEditorsCommand', () => {
 		assert.deepEqual(deps.selectionInfoRegistry.get('visible1'), {
 			text: 'SELECTED_TEXT_1',
 			fileName: 'FILE1',
-			lineRanges: [{ start: 5, end: 10 }]
+			lineRanges: [{ start: 5, end: 10 }],
+			sourceUri: 'file:///1',
+			targetKind: 'selection',
+			selectionRange: { startLine: 5, startChar: 0, endLine: 10, endChar: 1 }
 		});
 		assert.deepEqual(deps.selectionInfoRegistry.get('visible2'), {
 			text: 'SELECTED_TEXT_2',
 			fileName: 'FILE2',
-			lineRanges: [{ start: 15, end: 20 }]
+			lineRanges: [{ start: 15, end: 20 }],
+			sourceUri: 'file:///2',
+			targetKind: 'selection',
+			selectionRange: { startLine: 15, startChar: 0, endLine: 20, endChar: 1 }
 		});
 	});
 
@@ -77,8 +95,10 @@ suite('CompareVisibleEditorsCommand', () => {
 		const commandFactory = new CommandFactory(
 			dependencies.selectionInfoRegistry,
 			mock(NormalizationRuleStore),
+			mockType<WorkspaceAdaptor>({ get: <T>() => false as T }),
 			dependencies.commandAdaptor,
 			dependencies.windowAdaptor,
+			mock(EditableDiffSessionManager),
 			new OpenEditorSnapshotStore(),
 			mockType<typeof vscode.env.clipboard>(),
 			() => new Date('2016-06-15T11:43:00Z')

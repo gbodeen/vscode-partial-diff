@@ -8,6 +8,9 @@ import * as vscode from 'vscode';
 import CommandAdaptor from './adaptors/command';
 import WindowAdaptor from './adaptors/window';
 import OpenEditorSnapshotStore from './open-editor-snapshot-store';
+import EditableDiffSessionManager from './editable-diff-session-manager';
+import ApplyBackService from './apply-back-service';
+import EditableDiffFileSystemProvider from './editable-diff-file-system-provider';
 
 export default class BootstrapperFactory {
 	create() {
@@ -17,17 +20,37 @@ export default class BootstrapperFactory {
 		const commandAdaptor = new CommandAdaptor(vscode.commands, vscode.Uri.parse, logger);
 		const normalizationRuleStore = new NormalizationRuleStore(workspaceAdaptor);
 		const windowAdaptor = new WindowAdaptor(vscode.window, vscode.workspace);
+		const applyBackService = new ApplyBackService(workspaceAdaptor, windowAdaptor, 400);
+		const editableDiffSessionManager = new EditableDiffSessionManager(
+			selectionInfoRegistry,
+			workspaceAdaptor,
+			commandAdaptor,
+			applyBackService
+		);
+		const editableDiffFileSystemProvider = new EditableDiffFileSystemProvider();
 		const openEditorSnapshotStore = new OpenEditorSnapshotStore();
 		const commandFactory = new CommandFactory(
 			selectionInfoRegistry,
 			normalizationRuleStore,
+			workspaceAdaptor,
 			commandAdaptor,
 			windowAdaptor,
+			editableDiffSessionManager,
 			openEditorSnapshotStore,
 			vscode.env.clipboard,
 			() => new Date()
 		);
 		const contentProvider = new ContentProvider(selectionInfoRegistry, normalizationRuleStore);
-		return new Bootstrapper(commandFactory, contentProvider, workspaceAdaptor, commandAdaptor, windowAdaptor, openEditorSnapshotStore, vscode.env.clipboard);
+		return new Bootstrapper(
+			commandFactory,
+			contentProvider,
+			editableDiffFileSystemProvider,
+			workspaceAdaptor,
+			commandAdaptor,
+			windowAdaptor,
+			openEditorSnapshotStore,
+			editableDiffSessionManager,
+			vscode.env.clipboard
+		);
 	}
 } 

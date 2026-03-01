@@ -99,6 +99,25 @@ suite('TextEditor', () => {
 		assert.equal(editor.fileName, 'FILENAME');
 	});
 
+	test('it extracts single selection range when exactly one selection exists', () => {
+		const editor = createEditorWithSelections([{
+			start: { line: 5, character: 2 },
+			end: { line: 7, character: 4 },
+			text: 'A'
+		}]);
+		assert.deepEqual(editor.singleSelectionRange, {
+			startLine: 5,
+			startChar: 2,
+			endLine: 7,
+			endChar: 4
+		});
+	});
+
+	test('it returns undefined for single selection range with multiple selections', () => {
+		const editor = createEditorWithTexts(['SELECTED_TEXT_1', 'SELECTED_TEXT_2']);
+		assert.equal(editor.singleSelectionRange, undefined);
+	});
+
 	function createEditorWithTexts(selectedTexts: string[]) {
 		const selections = selectedTexts.map((text, i) => ({
 			text,

@@ -116,6 +116,11 @@
 						]
 					},
 					"default": []
+				},
+				"partialDiff.enableEditableDiffs": {
+					"description": "Enable editing diff. Changes are applied back to source documents.",
+					"type": "boolean",
+					"default": true
 				}
 			}
 		},
@@ -190,7 +195,6 @@
 		"coverage": "nyc mocha",
 		"compile:dev": "webpack --mode development",
 		"compile:prod": "rm -rf dist && webpack --mode production",
-		"compile:test": "tsc -p ./",
 		"lint": "eslint . --ext .ts",
 		"watch": "npm run compile:dev -- --watch",
 		"prep": "npm run compile:prod && npm run lint && npm test",

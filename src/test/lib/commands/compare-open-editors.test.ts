@@ -7,6 +7,8 @@ import NormalizationRuleStore from '../../../lib/normalization-rule-store';
 import OpenEditorSnapshotStore from '../../../lib/open-editor-snapshot-store';
 import * as assert from 'assert';
 import * as vscode from 'vscode';
+import WorkspaceAdaptor from '../../../lib/adaptors/workspace';
+import EditableDiffSessionManager from '../../../lib/editable-diff-session-manager';
 
 suite('CompareOpenEditorsCommand', () => {
 
@@ -18,8 +20,20 @@ suite('CompareOpenEditorsCommand', () => {
 		const { command, deps } = createCommand(openInfos);
 		await command.execute();
 
-		assert.deepEqual(deps.selectionInfoRegistry.get('open1'), { text: 'OPEN_TEXT_1', fileName: 'OPEN_FILE1', lineRanges: [] });
-		assert.deepEqual(deps.selectionInfoRegistry.get('open2'), { text: 'OPEN_TEXT_2', fileName: 'OPEN_FILE2', lineRanges: [] });
+		assert.deepEqual(deps.selectionInfoRegistry.get('open1'), {
+			text: 'OPEN_TEXT_1',
+			fileName: 'OPEN_FILE1',
+			lineRanges: [],
+			sourceUri: 'file:///1',
+			targetKind: 'document'
+		});
+		assert.deepEqual(deps.selectionInfoRegistry.get('open2'), {
+			text: 'OPEN_TEXT_2',
+			fileName: 'OPEN_FILE2',
+			lineRanges: [],
+			sourceUri: 'file:///2',
+			targetKind: 'document'
+		});
 		verify(deps.commandAdaptor.executeCommand(
 			'vscode.diff',
 			'partialdiff:text/open1?_ts=1465990980000',
@@ -47,7 +61,13 @@ suite('CompareOpenEditorsCommand', () => {
 		const { command, deps } = createCommand(openInfos, snapshotStore);
 		await command.execute();
 
-		assert.deepEqual(deps.selectionInfoRegistry.get('open1'), { text: 'OPEN_TEXT_1', fileName: 'OPEN_FILE1', lineRanges: [] });
+		assert.deepEqual(deps.selectionInfoRegistry.get('open1'), {
+			text: 'OPEN_TEXT_1',
+			fileName: 'OPEN_FILE1',
+			lineRanges: [],
+			sourceUri: 'file:///1',
+			targetKind: 'document'
+		});
 		assert.deepEqual(deps.selectionInfoRegistry.get('open2'), { text: 'SELECTED_TEXT_2', fileName: 'OPEN_FILE2', lineRanges: [{ start: 3, end: 5 }] });
 	});
 
@@ -61,8 +81,10 @@ suite('CompareOpenEditorsCommand', () => {
 		const commandFactory = new CommandFactory(
 			dependencies.selectionInfoRegistry,
 			mock(NormalizationRuleStore),
+			mockType<WorkspaceAdaptor>({ get: <T>() => false as T }),
 			dependencies.commandAdaptor,
 			dependencies.windowAdaptor,
+			mock(EditableDiffSessionManager),
 			snapshotStore,
 			mockType<typeof vscode.env.clipboard>(),
 			() => new Date('2016-06-15T11:43:00Z')
