@@ -4,54 +4,61 @@ This is a fork of the [Partial Diff VSCode extension by ryu1kn](https://github.c
 
 ## Features
 
-* You can compare (diff) text selections within a file, across different files, or to the clipboard.
-* Multi cursor text selection.
-* User defined text normalization rules to reduce the noise in the diff (e.g. replace tab characters to spaces).
-* User defined text normalization rules can be toggled off without removing them from the configuration.
-* Compare text in 2 visible editors (i.e. tabs) with one action.
+* You can compare (diff) text selections within a file, across different files, or from a selection to the clipboard.
+* You can add user defined text-normalization rules to reduce the noise in the diff (e.g. replace tab characters to spaces), and these rules can be toggled on/off.
+* Compare text in 2 visible or open editors (i.e. tabs) with one action.
 
-![Compare two text selections](https://raw.githubusercontent.com/gbodeen/vscode-partial-diff/master/images/public.gif)
+![Compare two text selections](https://raw.githubusercontent.com/gbodeen/vscode-partial-diff/master/images/public.gif "old image; the commands have changed names!")
 
 ## Request Features or Report Bugs
 
 Feature requests and bug reports are very welcome: https://github.com/gbodeen/vscode-partial-diff/issues
 
+The original repo also states they are welcome, but it has been inactive for some time.
+
 A couple of requests from me when you raise an github issue.
 
-* **Requesting a feature:** Please try to provide the context of why you want that feature. Such as, in what situation the feature could help you and how, or how the lack of the feature is causing an inconvenience to you. I can't think of introducing it until I understand how it helps you 🙂
+* **Requesting a feature:** Please try to provide the context of why you want that feature. Such as, in what situation the feature could help you and how, or how the lack of the feature is causing an inconvenience to you.
 * **Reporting a bug:** Please include environment information (OS name/version, the editor version). Also screenshots (or even videos) are often very very helpful!
 
 ## Commands
 
-* `Select Text for Compare` (**Command ID:** `extension.partialDiff.selectForCompare`)
+* `Select for Compare` (**Command ID:** `extension.partialDiff.selectForCompare`)
 
-    Marks the selected text as the text to compare the next selection with.
+    Select text, then use this command to mark it for comparison with the next selection.
 
-* `Compare Text with Previous Selection` (**Command ID:** `extension.partialDiff.compareWithSelected`)
+* `Compare with Selected` (**Command ID:** `extension.partialDiff.compareWithSelected`)
 
-    Compares the selected text to the first selection.
+    Select text, then use this command to compare it against the previous selection from the `Select for Compare` command.
+
+* `Compare with Clipboard` (**Command ID:** `extension.partialDiff.compareWithClipboard`)
+
+		Select text, then use this command to compare it against the previous selection from the `Select for Compare` command.
+
+* `Compare Visible Editors` (**Command ID:** `extension.partialDiff.compareVisibleEditors`)
+
+		If exactly two editors are visible (e.g. with a split view), compare the selected text in each. If no text is selected, it will use the full text of the editor.
+
+* `Compare Open Editors` (**Command ID:** `extension.partialDiff.compareOpenEditors`)
+
+		If exactly two editors are open (e.g. one visible, one in the background), compare the selected text in each. If no text is selected, it will use the full text of the editor.
 
 * `Change Diff Normalization` (**Command ID:** `extension.partialDiff.changeDiffNormalization`)
 
-    Change Diff Normalization.
-
-**NOTE:**
-
-* A diff will be shown only after selecting comparison text first (using `Select Text for Compare`) except `Compare Visible Editors`.
-* Executing `Select Text for Compare`, `Compare Text with Previous Selection` or `Compare Visible Editors` command without selecting any text will use the entire text of the current file.
+    Toggle your normalization rules on or off. These rules can be configured in your settings.
 
 ## Configurations
 
-* `partialDiff.commandsOnContextMenu` (default: `{"selectForCompare": true, ...}`, all commands visible)
+* `partialDiff.commandsOnContextMenu`
 
-    Commands appear on the context menu. Unlisted commands will still appear.
+    Choose which commands appear in the context menu. By default, all are visible.
 
-* `partialDiff.preComparisonTextNormalizationRules` (default: `[]`)
+* `partialDiff.preComparisonTextNormalizationRules`
 
     Rules to normalize texts for diff view.
 
-    It doesn't mutate texts in the editors. Only texts in diff views get normalised.
-    If a diff is presented with text normalised (or possibly normalised), `~` is used in the diff title instead of `↔`)
+    The rules don't mutate texts in the editors. Only texts in diff views get normalized.
+    If a diff is presented with text normalized, `~` is used in the diff title instead of `↔`)
 
     Each rule has `match`, `replaceWith`. `name` or `enableOnStart` are optional.
 
@@ -77,7 +84,7 @@ A couple of requests from me when you raise an github issue.
         "replaceWith": ", $1"
       },
       {
-        "name": "Capitalise",
+        "name": "Capitalize",
         "match": ".*",
         "replaceWith": {"letterCase": "upper"},
         "enableOnStart": false
